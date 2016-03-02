@@ -1,0 +1,26 @@
+@timeline {
+
+  10 : ".style1",
+  50 : ".style2"
+
+}
+
+#style {
+
+  framebuffershader : framebuffer,
+  defaultshader : diffuse,
+  geometryshader : geometry
+
+
+
+}
+
+
+#style {
+
+  framebuffershader : framebuffer,
+  defaultshader : diffuse,
+  geometryshader : geometry
+
+
+}
