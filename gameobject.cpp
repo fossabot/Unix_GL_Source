@@ -7,7 +7,7 @@ namespace OpenGLEngine {
   Gameobject::Gameobject() {
 
     mesh_renderers = new std::vector<MeshRenderer*>();
-    worldTransform = new Transform();
+    worldTransform = new Transform(glm::vec3(-90.0, 180.0, 0.0));
 
   }
 
@@ -22,12 +22,12 @@ namespace OpenGLEngine {
 
   }
 
-  void Gameobject::update(Camera* mainCamera, float deltaTime) {
+  void Gameobject::update(Camera mainCamera, float deltaTime) {
 
-    worldTransform->Rotation().y += 0.01;
+    worldTransform->getRotation().y += 0.01;
 
     for(MeshRenderer *mr : *mesh_renderers)
-      mr->update(worldTransform, mainCamera, deltaTime);
+      mr->update(*worldTransform, mainCamera, deltaTime);
 
   }
 

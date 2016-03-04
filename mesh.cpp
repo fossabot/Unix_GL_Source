@@ -3,13 +3,25 @@
 
 namespace OpenGLEngine {
 
-  Mesh::Mesh(unsigned int id, std::string name) : Component(id, name) {
-    transform = new Transform();
+  Mesh::Mesh(unsigned int id, std::string name, const ModelFormat model_format) : Component(id, name) {
+
+    switch (model_format) {
+      case FORMAT_OBJ:
+        break;
+
+      case FORMAT_FBX:
+        break;
+
+      case NUM_MODEL_FORMAT:
+        break;
+
+    }
+
+
   }
 
   Mesh::~Mesh() {
 
-    delete transform;
     for(unsigned int i = 0; i < 4; i++)
       glDeleteBuffers(1, &vbo[i]);
     glDeleteVertexArrays(1, &vao);
@@ -19,7 +31,6 @@ namespace OpenGLEngine {
   void Mesh::loadGeometryToGpu(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> coords, std::vector<unsigned int> indices) {
 
     indicesSize = indices.size();
-    transform = new Transform();
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);

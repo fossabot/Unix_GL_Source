@@ -17,7 +17,7 @@ namespace OpenGLEngine {
 
   }
 
-  void Material::bind(Transform* worldTransform, Camera* mainCamera, float deltaTime) {
+  void Material::bind(Transform worldTransform, Camera mainCamera, float deltaTime) {
 
     shader->bind();
     shader->update(worldTransform, mainCamera, deltaTime);

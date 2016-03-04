@@ -15,7 +15,7 @@ namespace OpenGLEngine {
       virtual ~GeometryShader();
       void clean();
       void reset(const std::string& filename);
-      virtual void update(Transform* worldTransform, Camera* mainCamera, float deltaTime);
+      virtual void update(Transform worldTransform, Camera mainCamera, float deltaTime);
 
       virtual void loadShaderToGpu(const std::string& filename);
       virtual void bind();

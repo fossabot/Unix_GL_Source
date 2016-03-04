@@ -18,7 +18,7 @@ namespace OpenGLEngine {
       DefaultShader(unsigned int id, std::string name);
       virtual ~DefaultShader();
       virtual void initialize();
-      void update(Transform* worldTransform, Camera* mainCamera, float deltaTime);
+      void update(Transform worldTransform, Camera mainCamera, float deltaTime);
 
       void loadShaderToGpu(const std::string& filename);
       void bind();

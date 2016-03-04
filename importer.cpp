@@ -3,24 +3,24 @@
 namespace OpenGLEngine {
 
 
-  void Importer::processNode(aiNode *node, const aiScene *scene, Gameobject* out, std::string path, unsigned int shaderType) {
+  void Importer::processNode(aiNode *node, const aiScene *scene, Gameobject* out, std::string path, unsigned int shaderType, const Mesh::ModelFormat model_format) {
 
     for(unsigned int i = 0; i < node->mNumMeshes; i++) {
 
       aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-      out->addMeshRenderer(processMesh(mesh, scene, path, shaderType));
+      out->addMeshRenderer(processMesh(mesh, scene, path, shaderType, model_format));
 
     }
 
     for(unsigned int j = 0; j < node->mNumChildren; j++) {
 
-      processNode(node->mChildren[j], scene, out, path, shaderType);
+      processNode(node->mChildren[j], scene, out, path, shaderType, model_format);
 
     }
 
   }
 
-  MeshRenderer* Importer::processMesh(aiMesh* mesh, const aiScene* scene, std::string path, unsigned int shaderType) {
+  MeshRenderer* Importer::processMesh(aiMesh* mesh, const aiScene* scene, std::string path, unsigned int shaderType, const Mesh::ModelFormat model_format) {
 
     MeshRenderer* mr = new MeshRenderer();
 
@@ -28,9 +28,11 @@ namespace OpenGLEngine {
     std::vector<glm::vec3>* normals = new std::vector<glm::vec3>();
     std::vector<glm::vec2>* coords = new std::vector<glm::vec2>();
     std::vector<unsigned int>* indices = new std::vector<unsigned int>();
+    std::vector<Bone>* bones = new std::vector<Bone>();
+
 
     const std::string mesh_name =  std::string(mesh->mName.C_Str());
-    Mesh* e_mesh = new Mesh(Manager::addMesh(), mesh_name);
+    Mesh* e_mesh = new Mesh(Manager::addMesh(), mesh_name, model_format);
     Material* e_material = new Material(Manager::addMaterial(), mesh_name + ":material");
     Shader* e_shader;
     if(shaderType == Shader::VERTEX_FRAGMENT_SHADERS)
@@ -54,6 +56,28 @@ namespace OpenGLEngine {
       } else {
       			coords->push_back(glm::vec2(1.0, 1.0));
       }
+
+    }
+
+    for(unsigned int b = 0; b < mesh->mNumBones; b++) {
+
+      Bone bone = Bone();
+      bone.name = mesh->mBones[b]->mName.C_Str();
+
+      for (unsigned int bw = 0; bw < mesh->mBones[b]->mNumWeights; bw++) {
+        BoneWeight weight = BoneWeight();
+        weight.vertex_id = mesh->mBones[b]->mWeights[bw].mVertexId;
+        weight.weight = mesh->mBones[b]->mWeights[bw].mWeight;
+        bone.weights.push_back(weight);
+      }
+
+      const aiMatrix4x4* from = &mesh->mBones[b]->mOffsetMatrix;
+      bone.offsetMatrix[0][0] = (GLfloat)from->a1; bone.offsetMatrix[0][1] = (GLfloat)from->b1;  bone.offsetMatrix[0][2] = (GLfloat)from->c1; bone.offsetMatrix[0][3] = (GLfloat)from->d1;
+      bone.offsetMatrix[1][0] = (GLfloat)from->a2; bone.offsetMatrix[1][1] = (GLfloat)from->b2;  bone.offsetMatrix[1][2] = (GLfloat)from->c2; bone.offsetMatrix[1][3] = (GLfloat)from->d2;
+      bone.offsetMatrix[2][0] = (GLfloat)from->a3; bone.offsetMatrix[2][1] = (GLfloat)from->b3;  bone.offsetMatrix[2][2] = (GLfloat)from->c3; bone.offsetMatrix[2][3] = (GLfloat)from->d3;
+      bone.offsetMatrix[3][0] = (GLfloat)from->a4; bone.offsetMatrix[3][1] = (GLfloat)from->b4;  bone.offsetMatrix[3][2] = (GLfloat)from->c4; bone.offsetMatrix[3][3] = (GLfloat)from->d4;
+
+      bones->push_back(bone);
 
     }
 
@@ -135,6 +159,9 @@ namespace OpenGLEngine {
     indices->clear();
     delete indices;
 
+    bones->clear();
+    delete bones;
+
     mr->setMesh(e_mesh);
     mr->setMaterial(e_material);
     return mr;
@@ -150,23 +177,32 @@ namespace OpenGLEngine {
 
     scene = importer.ReadFile(path, aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
     if(!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-      std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << "\n";
+      std::cerr << "ERROR::ASSIMP::" << importer.GetErrorString() << "\n";
       delete out;
       return nullptr;
     }
 
-    std::cout << "Original Path : " << path << "\n";
+    std::string s_format = path.substr(path.length()-4, path.length());
+    Mesh::ModelFormat m_format;
+    if (s_format == ".obj") {
+      m_format = Mesh::ModelFormat::FORMAT_OBJ;
+    } else if(s_format == ".fbx") {
+      m_format = Mesh::ModelFormat::FORMAT_FBX;
+    }
 
     #ifdef __APPLE__
-      std::regex pattern("(.*)\\/(.*)\\.obj");
+
+      std::regex pattern;
+      if(m_format == Mesh::ModelFormat::FORMAT_OBJ)
+        patter = std::regex("(.*)\\/(.*)\\.obj");
+      else if(m_format == Mesh::ModelFormat::FORMAT_FBX)
+        pattern = std::regex("(.*)\\/(.*)\\.fbx");
       std::smatch pieces_match;
       if(std::regex_match(path, pieces_match, pattern)) {
-
         std::ssub_match sub_match = pieces_match[1];
-        std::cout << "Submatch : " << sub_match.str() << "\n";
-        processNode(scene->mRootNode, scene, out, sub_match.str(), shaderType);
-
+        processNode(scene->mRootNode, scene, out, sub_match.str(), shaderType, m_format);
       }
+
     #elif __linux__
       unsigned int num_slashes = 1;
       unsigned int len_path = path.length() - 1;
@@ -179,11 +215,9 @@ namespace OpenGLEngine {
       std::string final = path.substr(0, len_path+1);
 
 
-      std::cout << "Submatch : " << final << "\n";
-      processNode(scene->mRootNode, scene, out, final, shaderType);
+      processNode(scene->mRootNode, scene, out, final, shaderType, m_format);
     #endif
 
-    std::cout << "Finished loading model\n";
 
     return out;
 

@@ -4,32 +4,9 @@
 
 namespace OpenGLEngine {
 
-  Camera::Camera(const glm::vec3& position, int screenWidth, int screenHeight)
-  	: m_Viewport(0)
-  	, m_Position(0)
-  	, m_Rotation()
-  	, m_ProjectionMatrix(1)
-  	, m_ViewMatrix(1)
-  	, m_ViewDirty(false)
-  {
-  	g_PreviousTicks = std::clock();
-  	g_A = g_W = g_S = g_D = g_Q = g_E = 0;
 
-  	this->SetPosition(position);
-  	this->SetRotation(glm::quat());
-
-  	this->SetViewport(0, 0, screenWidth, screenHeight);
-  	this->SetProjectionRH(70.0f, screenWidth / (float)screenHeight, 0.01f, 50000.0f);
-  }
-
-  Camera::Camera(int screenWidth, int screenHeight)
-  	: m_Viewport(0, 0, screenWidth, screenHeight)
-  	, m_Position(0)
-  	, m_Rotation()
-  	, m_ProjectionMatrix(1)
-  	, m_ViewMatrix(1)
-  	, m_ViewDirty(false)
-  {
+  Camera::Camera(int screenWidth, int screenHeight) {
+    m_ViewDirty = false;
   	g_PreviousTicks = std::clock();
   	g_A = g_W = g_S = g_D = g_Q = g_E = 0;
 
@@ -38,6 +15,25 @@ namespace OpenGLEngine {
 
   	this->SetViewport(0, 0, screenWidth, screenHeight);
   	this->SetProjectionRH(70.0f, screenWidth / (float)screenHeight, 0.01f, 50000.0f);
+
+    speed = 0.02f;
+    smoothnessX = smoothnessY = 0.05f;
+  }
+
+  Camera::Camera(const glm::vec3& position, int screenWidth, int screenHeight) {
+
+    m_ViewDirty = false;
+  	g_PreviousTicks = std::clock();
+  	g_A = g_W = g_S = g_D = g_Q = g_E = 0;
+
+  	this->SetPosition(position);
+  	this->SetRotation(glm::quat());
+
+  	this->SetViewport(0, 0, screenWidth, screenHeight);
+  	this->SetProjectionRH(70.0f, screenWidth / (float)screenHeight, 0.01f, 50000.0f);
+
+    speed = 0.02f;
+    smoothnessX = smoothnessY = 0.05f;
   }
 
   Camera::~Camera()
@@ -148,4 +144,63 @@ namespace OpenGLEngine {
     return g_Raycast;
   }
 
+
+  void Camera::setMouseDown(bool what) {
+    isMouseDown = what;
+  }
+
+  void Camera::updateLocation(double deltaTime) {
+
+    Translate(glm::vec3(g_D - g_A, g_Q - g_E, g_S - g_W) * (float)speed);
+
+  }
+
+  void Camera::updateDirection(double relativeMouseMotionX, double relativeMouseMotionY) {
+
+    if(isMouseDown) {
+      g_Pitch -= relativeMouseMotionY * smoothnessY;
+      g_Yaw -= relativeMouseMotionX * smoothnessX;
+
+      g_Pitch = glm::clamp(g_Pitch, -80.0f, 80.0f);
+      g_Yaw = fmod(g_Yaw, 360.0f);
+
+      glm::quat cameraRotation = glm::quat(glm::eulerAngleYX(glm::radians(g_Yaw), glm::radians(g_Pitch)));
+      SetRotation(cameraRotation);
+
+      g_Raycast = cameraRotation * glm::vec3(0.0, 0.0, 1.0);
+    }
+
+  }
+
+  void Camera::startMovingForward() {
+    g_W = 1;
+  }
+
+  void Camera::startMovingBackward() {
+    g_S = 1;
+  }
+
+  void Camera::startMovingRight() {
+    g_D = 1;
+  }
+
+  void Camera::startMovingLeft() {
+    g_A = 1;
+  }
+
+  void Camera::stopMovingForward() {
+    g_W = 0;
+  }
+
+  void Camera::stopMovingBackward() {
+    g_S = 0;
+  }
+
+  void Camera::stopMovingRight() {
+    g_D = 0;
+  }
+
+  void Camera::stopMovingLeft() {
+    g_A = 0;
+  }
 }

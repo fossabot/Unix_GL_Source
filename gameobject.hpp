@@ -15,7 +15,7 @@ namespace OpenGLEngine {
       Gameobject();
       ~Gameobject();
 
-      void update(Camera* mainCamera, float deltaTime);
+      void update(Camera mainCamera, float deltaTime);
       void addMeshRenderer(MeshRenderer* mesh_renderer);
 
     private:

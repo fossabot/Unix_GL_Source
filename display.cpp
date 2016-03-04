@@ -121,7 +121,7 @@ namespace OpenGLEngine {
     glEnable(GL_DEPTH_TEST);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    std::cout << "ready.\n";
+    std::cout << "\n\nEngine Starting.\n";
     framebuffer->initialize();
     usingFramebuffer = true;
     scene->initialize();

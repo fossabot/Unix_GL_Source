@@ -19,6 +19,24 @@ namespace OpenGLEngine {
     	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+      //////////////////////////////////////////////////////////////////////////////////////////////////////
+    	// Camera Controller /////////////////////////////////////////////////////////////////////////////////
+    	//////////////////////////////////////////////////////////////////////////////////////////////////////
+      bool isMouseDown = false;
+      void setMouseDown(bool what);
+      void updateLocation(double deltaTime);
+      void updateDirection(double relativeMouseMotionX, double relativeMouseMotionY);
+      void startMovingForward();
+      void startMovingBackward();
+      void startMovingRight();
+      void startMovingLeft();
+      void stopMovingForward();
+      void stopMovingBackward();
+      void stopMovingRight();
+      void stopMovingLeft();
+    	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     	void SetViewport(int x, int y, int width, int height);
     	glm::vec4 GetViewport() const;
     	void SetProjectionRH(float fov, float aspectRatio, float zNear, float zFar);
@@ -51,6 +69,7 @@ namespace OpenGLEngine {
 
       glm::vec3 GetDirection();
     	glm::vec3 g_Raycast;
+      double speed, smoothnessX, smoothnessY;
 
     protected:
 

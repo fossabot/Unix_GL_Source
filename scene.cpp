@@ -32,10 +32,10 @@ namespace OpenGLEngine {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     gobjects = new std::vector<Gameobject*>();
-    mainCamera = new Camera(glm::vec3(0.0, 0.0, 4.0), 512, 512);
+    mainCamera = new Camera(glm::vec3(0.0, 1.1, 2.0), 512, 512);
 
     importer = new Importer();
-    gobjects->push_back(importer->importModel("assets/models/monkey/monkey.obj", Shader::VERTEX_FRAGMENT_SHADERS));
+    gobjects->push_back(importer->importModel("assets/models/mocap/mocap.fbx", Shader::VERTEX_FRAGMENT_SHADERS));
 
   }
 
@@ -47,8 +47,10 @@ namespace OpenGLEngine {
 
   void Scene::render3D(float deltaTime) {
 
+    mainCamera->updateLocation(deltaTime);
+
     for(Gameobject *go : *gobjects)
-      go->update(mainCamera, deltaTime);
+      go->update(*mainCamera, deltaTime);
 
   }
   // ---------------------------------------------------------------------------------
@@ -58,9 +60,66 @@ namespace OpenGLEngine {
   // INTERRUPTS ----------------------------------------------------------------------
   void Scene::interruptKeyboard(int type, int key) {
 
+    if(type == SDL_KEYDOWN) {
+
+      switch (key) {
+
+        case SDLK_w:
+          mainCamera->startMovingForward();
+        break;
+
+        case SDLK_s:
+          mainCamera->startMovingBackward();
+        break;
+
+        case SDLK_d:
+          mainCamera->startMovingRight();
+        break;
+
+        case SDLK_a:
+          mainCamera->startMovingLeft();
+        break;
+
+      }
+
+    } else if(type == SDL_KEYUP) {
+
+      switch (key) {
+
+        case SDLK_w:
+          mainCamera->stopMovingForward();
+        break;
+
+        case SDLK_s:
+          mainCamera->stopMovingBackward();
+        break;
+
+        case SDLK_d:
+          mainCamera->stopMovingRight();
+        break;
+
+        case SDLK_a:
+          mainCamera->stopMovingLeft();
+        break;
+
+      }
+
+    }
   }
 
   void Scene::interruptMouse(int type, int button) {
+
+    if(type == SDL_MOUSEMOTION) {
+
+      int relX, relY;
+      SDL_GetRelativeMouseState(&relX, &relY);
+      mainCamera->updateDirection(relX, relY);
+
+    } else if(type == SDL_MOUSEBUTTONDOWN) {
+      mainCamera->setMouseDown(true);
+    } else if(type == SDL_MOUSEBUTTONUP) {
+      mainCamera->setMouseDown(false);
+    }
 
   }
   // ---------------------------------------------------------------------------------

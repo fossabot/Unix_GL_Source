@@ -122,7 +122,6 @@ namespace OpenGLEngine {
 
   void DefaultShader::loadShaderToGpu(const std::string& filename) {
 
-    std::cout << "Loading normal shader called :  " << filename << "\n";
     program = glCreateProgram();
     shaders[VERTEX_SHADER] = createShader(loadShaderCode(filename + ".vs"), GL_VERTEX_SHADER);
     shaders[FRAGMENT_SHADER] = createShader(loadShaderCode(filename + ".fs"), GL_FRAGMENT_SHADER);
@@ -144,16 +143,16 @@ namespace OpenGLEngine {
     glUseProgram(0);
   }
 
-  void DefaultShader::update(Transform* worldTransform, Camera* mainCamera, float deltaTime) {
+  void DefaultShader::update(Transform worldTransform, Camera mainCamera, float deltaTime) {
 
-  	glm::mat4 model = worldTransform->Model();
-  	glm::mat4 view = mainCamera->GetViewMatrix();
-  	glm::mat4 projection = mainCamera->GetProjectionMatrix();
+  	glm::mat4 model = worldTransform.Model();
+  	glm::mat4 view = mainCamera.GetViewMatrix();
+  	glm::mat4 projection = mainCamera.GetProjectionMatrix();
   	glUniformMatrix4fv(uniforms[MODEL_U], 1, 0, &model[0][0]);
   	glUniformMatrix4fv(uniforms[VIEW_U], 1, 0, &view[0][0]);
   	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, 0, &projection[0][0]);
-  	glUniform3fv(uniforms[CAMERA_POSITION], 1, &mainCamera->GetPosition()[0]);
-    glUniform3fv(uniforms[CAMERA_DIRECTION], 1, &mainCamera->GetDirection()[0]);
+  	glUniform3fv(uniforms[CAMERA_POSITION], 1, &mainCamera.GetPosition()[0]);
+    glUniform3fv(uniforms[CAMERA_DIRECTION], 1, &mainCamera.GetDirection()[0]);
     glUniform1f(uniforms[TIME], SDL_GetTicks());
   	glUniform1f(uniforms[DELTATIME], deltaTime);
 

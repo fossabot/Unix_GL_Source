@@ -109,7 +109,7 @@ namespace OpenGLEngine {
 
     glDisable(GL_DEPTH_TEST);
     screenShader->bind();
-    screenShader->update(transform, screenCamera, 1.0);
+    screenShader->update(*transform, *screenCamera, 1.0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture_color0);
     glUniform1i(glGetUniformLocation(screenShader->Program(), "screenTexture"), 0);

@@ -18,7 +18,7 @@ namespace OpenGLEngine {
       Material(unsigned int id, std::string name);
       virtual ~Material();
 
-      void bind(Transform* worldTransform, Camera* mainCamera, float deltaTime);
+      void bind(Transform worldTransform, Camera mainCamera, float deltaTime);
       void unbind();
       void setShader(Shader *shader);
       void setDiffuseTexture(Texture *texture);
