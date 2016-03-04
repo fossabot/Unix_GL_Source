@@ -27,10 +27,13 @@ namespace OpenGLEngine {
       void loadGeometryToGpu(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> coords, std::vector<unsigned int> indices);
       void update();
 
+      Transform& getTransform();
+
     private:
 
       GLuint vbo[4], vao;
       unsigned int indicesSize;
+      Transform* transform;
 
   };
 

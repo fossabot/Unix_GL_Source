@@ -12,7 +12,7 @@ namespace OpenGLEngine {
     public:
 
       Transform();
-      Transform(const glm::vec3& rotation);
+      Transform(const glm::vec3& rotation, const glm::vec3& scale);
       glm::mat4 Model();
       void setPosition(const glm::vec3& position);
       void setRotation(const glm::vec3& rotation);

@@ -32,10 +32,10 @@ namespace OpenGLEngine {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     gobjects = new std::vector<Gameobject*>();
-    mainCamera = new Camera(glm::vec3(0.0, 1.1, 2.0), 512, 512);
+    mainCamera = new Camera(glm::vec3(0.0, 1.1, 3.0), 512, 512);
 
     importer = new Importer();
-    gobjects->push_back(importer->importModel("assets/models/mocap/mocap.fbx", Shader::VERTEX_FRAGMENT_SHADERS));
+    gobjects->push_back(importer->importModel("assets/models/monkey/monkey.obj", Shader::VERTEX_FRAGMENT_SHADERS));
 
   }
 

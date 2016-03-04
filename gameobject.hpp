@@ -20,7 +20,6 @@ namespace OpenGLEngine {
 
     private:
 
-      Transform* worldTransform;
       std::vector<MeshRenderer*>* mesh_renderers;
 
   };

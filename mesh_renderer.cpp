@@ -13,9 +13,9 @@ namespace OpenGLEngine {
 
   }
 
-  void MeshRenderer::update(Transform &worldTransform, Camera mainCamera, float deltaTime) {
+  void MeshRenderer::update(Camera mainCamera, float deltaTime) {
 
-    material->bind(worldTransform, mainCamera, deltaTime);
+    material->bind(mesh->getTransform(), mainCamera, deltaTime);
     mesh->update();
     material->unbind();
 

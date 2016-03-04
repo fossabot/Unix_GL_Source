@@ -11,11 +11,11 @@ namespace OpenGLEngine {
 
   }
 
-  Transform::Transform(const glm::vec3& rotation) {
+  Transform::Transform(const glm::vec3& rotation, const glm::vec3& scale) {
 
     this->rotation = glm::radians(glm::vec3(rotation.x, rotation.y, rotation.z));
+    this->scale = glm::vec3(scale.x, scale.y, scale.z);
     this->position = glm::vec3(0.0, 0.0, 0.0);
-    this->scale = glm::vec3(1.0, 1.0, 1.0);
 
   }
 

@@ -7,12 +7,15 @@ namespace OpenGLEngine {
 
     switch (model_format) {
       case FORMAT_OBJ:
+        transform = new Transform(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.5, 0.5, 0.5));
         break;
 
       case FORMAT_FBX:
+        transform = new Transform(glm::vec3(-90.0, 180.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
         break;
 
       case NUM_MODEL_FORMAT:
+        transform = new Transform();
         break;
 
     }
@@ -24,6 +27,7 @@ namespace OpenGLEngine {
 
     for(unsigned int i = 0; i < 4; i++)
       glDeleteBuffers(1, &vbo[i]);
+
     glDeleteVertexArrays(1, &vao);
 
   }
@@ -65,6 +69,10 @@ namespace OpenGLEngine {
     glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
+  }
+
+  Transform& Mesh::getTransform() {
+    return *transform;
   }
 
 }

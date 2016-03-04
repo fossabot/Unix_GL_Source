@@ -14,7 +14,7 @@ namespace OpenGLEngine {
 
       MeshRenderer();
       ~MeshRenderer();
-      void update(Transform &worldTransform, Camera mainCamera, float deltaTime);
+      void update(Camera mainCamera, float deltaTime);
       void setMesh(Mesh* mesh);
       void setMaterial(Material* material);
 
