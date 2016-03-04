@@ -65,6 +65,7 @@ namespace OpenGLEngine {
 
   void Mesh::update() {
 
+    transform->Rotate(glm::vec3(0.0, 0.1, 0.0));
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

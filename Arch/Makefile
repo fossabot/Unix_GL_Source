@@ -1,6 +1,6 @@
 COMPILER=clang++ -std=c++11
 CDIR= $(shell pwd)
-CPP_FILES= ../transform.cpp ../camera.cpp ../display.cpp ../framebuffer.cpp ../gameobject.cpp ../importer.cpp ../main.cpp ../manager.cpp ../material.cpp ../mesh_renderer.cpp ../mesh.cpp ../scene.cpp ../shader.cpp ../shader_default.cpp ../shader_framebuffer.cpp ../shader_geometry.cpp ../stb_image.c ../texture.cpp ../time.cpp
+CPP_FILES= ../camera.cpp ../display.cpp ../framebuffer.cpp ../gameobject.cpp ../importer.cpp ../main.cpp ../manager.cpp ../material.cpp ../mesh_renderer.cpp ../mesh.cpp ../scene.cpp ../shader.cpp ../shader_default.cpp ../shader_framebuffer.cpp ../shader_geometry.cpp ../stb_image.c ../texture.cpp ../time.cpp
 
 
 ################
