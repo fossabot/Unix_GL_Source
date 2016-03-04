@@ -41,9 +41,7 @@ namespace OpenGLEngine {
         positionMatrix = glm::translate(positionMatrix, position);
 
 	      glm::vec3 radianRotation = glm::radians(rotation);	// Convert degree rotation angles to radians.
-
 	      glm::quat quaternion	 = glm::quat(radianRotation); // Generate a quaternion from radian rotation.
-
 	      glm::mat4 rotationMatrix = glm::toMat4(quaternion); // Construct a matrix from the quaternion vector.
 
         glm::mat4 scaleMatrix = glm::mat4(1.0);
