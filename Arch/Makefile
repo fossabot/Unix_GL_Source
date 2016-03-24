@@ -14,11 +14,11 @@ INCLUDES= /usr/local/include
 GLM= sudo pacman -S glm
 ASSIMP= sudo pacman -S assimp
 CLANG= sudo pacman -S clang
-
+SDL2= sudo pacman -S sdl2
 
 
 Arch:
 	$(COMPILER) -o ../program_arch $(CPP_FILES) -I $(INCLUDES) -L $(LIBS) -lGL -lSDL2 -lGLEW -lassimp
 
 setup:
-	$(GLM) && $(ASSIMP) && $(CLANG)
+	$(GLM) && $(ASSIMP) && $(CLANG) && $(SDL2)
