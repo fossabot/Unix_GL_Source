@@ -207,28 +207,7 @@ namespace OpenGLEngine {
   void Importer::setupSkeletonHirearchy(const aiScene* scene, Timeline* timeline, unsigned int level, aiNode* nodeLevel, std::vector<aiNode*> used) {
     
     for(Bone bone : *timeline->bones){
-
-      for(unsigned int i = 0; i < nodeLevel->mNumChildren; i++){
-	bool duplicate = false;
-	for(unsigned int n = 0; n < used.size(); n++){
-	  if(used[n] == nodeLevel->mChildren[i]){
-	    duplicate = true;
-	  }
-	}
-
-	if(!duplicate){
-	  used.push_back(nodeLevel->mChildren[i]);
-	  if(bone.name == nodeLevel->mName.C_Str() && !bone.configured){	
-	    std::cout << bone.name << std::endl;
-	    bone.hirearchical_level = level;
-	    bone.configured = true;
-	    break;
-	  }
-	  setupSkeletonHirearchy(scene, timeline, level++, nodeLevel->mChildren[i], used);
-	}
-	
-      }
-      
+      setupSkeletonHirearchy(scene, timeline, level++, nodeLevel->mChildren[i], used);
     }
      
   }
