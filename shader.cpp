@@ -108,7 +108,9 @@ namespace OpenGLEngine {
     glBindAttribLocation(program, 0, "VertexPosition");
     glBindAttribLocation(program, 1, "VertexNormal");
     glBindAttribLocation(program, 2, "VertexTexcoord");
-
+    glBindAttribLocation(program, 3, "BoneIds");
+    glBindAttribLocation(program, 4, "BoneWeights");
+    
   }
 
   void Shader::linkNValidate() {
@@ -165,8 +167,8 @@ namespace OpenGLEngine {
   	glUniformMatrix4fv(uniforms[VIEW_U], 1, 0, &view[0][0]);
   	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, 0, &projection[0][0]);
   	glUniform3fv(uniforms[CAMERA_POSITION], 1, &mainCamera.GetPosition()[0]);
-    glUniform3fv(uniforms[CAMERA_DIRECTION], 1, &mainCamera.GetDirection()[0]);
-    glUniform1f(uniforms[TIME], SDL_GetTicks());
+	glUniform3fv(uniforms[CAMERA_DIRECTION], 1, &mainCamera.GetDirection()[0]);
+	glUniform1f(uniforms[TIME], SDL_GetTicks());
   	glUniform1f(uniforms[DELTATIME], deltaTime);
 
   }

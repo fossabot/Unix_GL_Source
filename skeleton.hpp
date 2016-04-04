@@ -3,27 +3,34 @@
 
 #include "ustd.hpp"
 
-
+#define NUM_BONES_PER_VERTEX 34
 
 namespace OpenGLEngine {
 
-  class BoneWeight {
-
-    public:
-        unsigned int vertex_id;
-        float weight;
-
+  
+  struct BoneConfig{
+    unsigned int vertex_id;
+    double weight;
   };
 
-  class Bone {
+  struct Bone {
 
-    public:
-      std::string name;
-      std::vector<BoneWeight> weights;
-      glm::mat4 offsetMatrix;
-
+    Bone() {
+      hirearchical_level = 0;
+    }
+    unsigned int hirearchical_level;
+    std::string name;
+    glm::mat4 offsetMatrix;
+    std::vector<BoneConfig> configs;
   };
+  
+  class Skeleton {
 
+  public:
+    std::vector<Skeleton> children;
+    
+  };
+  
 }
 
 

@@ -23,6 +23,8 @@
   #define GLM_FORCE_RADIANS
 #endif
 #include <SDL2/SDL.h>
+#include <glm/ext.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <glm/glm.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>

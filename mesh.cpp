@@ -6,21 +6,33 @@ namespace OpenGLEngine {
   Mesh::Mesh(unsigned int id, std::string name, const ModelFormat model_format) : Component(id, name) {
 
     switch (model_format) {
-      case FORMAT_OBJ:
-        transform = new Transform(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.5, 0.5, 0.5));
-        break;
 
-      case FORMAT_FBX:
-        transform = new Transform(glm::vec3(-90.0, 180.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
-        break;
+    case FORMAT_OBJ:
+      transform = new Transform(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.5, 0.5, 0.5));
+      break;
 
-      case NUM_MODEL_FORMAT:
-        transform = new Transform();
-        break;
+    case FORMAT_FBX:
+      transform = new Transform(glm::vec3(-90.0, 180.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+      break;
+
+    case FORMAT_DAE:
+      transform = new Transform(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.01, 0.01, 0.01));
+      break;
+	
+    case NUM_MODEL_FORMAT:
+      transform = new Transform();
+      break;
+
+    default:
+      transform = new Transform();
+      break;
 
     }
 
+  }
 
+  Mesh::Mesh(unsigned int id, std::string name, glm::mat4 global_inverse_matrix) : Component(id, name) {
+    transform = new Transform(global_inverse_matrix);
   }
 
   Mesh::~Mesh() {
@@ -34,6 +46,7 @@ namespace OpenGLEngine {
 
   void Mesh::loadGeometryToGpu(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> coords, std::vector<unsigned int> indices) {
 
+    
     indicesSize = indices.size();
 
     glGenVertexArrays(1, &vao);
@@ -54,7 +67,7 @@ namespace OpenGLEngine {
     glBufferData(GL_ARRAY_BUFFER, coords.size() * sizeof(coords[0]), &coords[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)(0));
-
+    
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
 

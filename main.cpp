@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
 
   }
 
+  delete OpenGLEngine::Timeline::getInstance();
   delete OpenGLEngine::Display::getInstance();
   return 0;
 
