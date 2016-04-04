@@ -17,11 +17,13 @@ namespace OpenGLEngine {
 
     Bone() {
       hirearchical_level = 0;
+      configured = false;
     }
     unsigned int hirearchical_level;
     std::string name;
     glm::mat4 offsetMatrix;
     std::vector<BoneConfig> configs;
+    bool configured;
   };
   
   class Skeleton {

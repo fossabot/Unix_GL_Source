@@ -206,7 +206,6 @@ namespace OpenGLEngine {
 
   void Importer::setupSkeletonHirearchy(const aiScene* scene, Timeline* timeline, unsigned int level, aiNode* nodeLevel, std::vector<aiNode*> used) {
     
-    std::cout << scene->mRootNode->mName.C_Str() << std::endl;
     for(Bone bone : *timeline->bones){
 
       for(unsigned int i = 0; i < nodeLevel->mNumChildren; i++){
@@ -224,9 +223,11 @@ namespace OpenGLEngine {
 	
       }
       
-      if(bone.name == nodeLevel->mName.C_Str()){	
+      if(bone.name == nodeLevel->mName.C_Str() && !bone.configured){	
 	std::cout << bone.name << std::endl;
-	bone.hirearchical_level = level;	
+	bone.hirearchical_level = level;
+	bone.configured = true;
+	break;
       }
       
       
@@ -299,8 +300,17 @@ namespace OpenGLEngine {
 
     processAnimation(scene);
     std::vector<aiNode*> used;
-    used.push_back(scene->mRootNode);
     setupSkeletonHirearchy(scene, Timeline::getInstance(), 1, scene->mRootNode, used);
+
+
+    Timeline* timeline = Timeline::getInstance();
+    for(unsigned int i = 0; i < 50; i++){
+      std::cout << "Level " << i << std::endl;
+      for(unsigned int j = 0; j < timeline->bones->size(); j++){
+	if(i == timeline->bones->at(j).hirearchical_level)
+	  std::cout << "\t" << timeline->bones->at(j).name << std::endl;
+      }
+    }
     
     return out;
 
