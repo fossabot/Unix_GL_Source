@@ -16,7 +16,7 @@ namespace OpenGLEngine {
   }
   
   void Importer::processNode(aiNode *node, const aiScene *scene, Gameobject* out, std::string path, unsigned int shaderType, const Mesh::ModelFormat model_format) {
-
+    
     for(unsigned int i = 0; i < node->mNumMeshes; i++) {
 
       aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -56,7 +56,6 @@ namespace OpenGLEngine {
     Texture* e_normal = new Texture(Manager::addTexture(), mesh_name + ":normal_texture");
 
 
-
     for(unsigned int v = 0; v < mesh->mNumVertices; v++) {
 
       vertices->push_back(glm::vec3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z));
@@ -69,18 +68,21 @@ namespace OpenGLEngine {
       }
 
     }
-    
-    for(unsigned int b = 0; b < mesh->mNumBones; b++) {
-      Bone bone;
-      bone.name = mesh->mBones[b]->mName.C_Str();
-      bone.offsetMatrix = assimp_to_glm_mat4(mesh->mBones[b]->mOffsetMatrix);
-      for(unsigned int c = 0; c < mesh->mBones[b]->mNumWeights; c++){
-	BoneConfig bc;
-	bc.vertex_id = mesh->mBones[b]->mWeights[c].mVertexId;
-	bc.weight = mesh->mBones[b]->mWeights[c].mWeight;
-	bone.configs.push_back(bc);
+
+
+    if(timeline->animations.size() > 0) {
+      for(unsigned int b = 0; b < mesh->mNumBones; b++) {
+	Bone bone;
+	bone.name = mesh->mBones[b]->mName.C_Str();
+	bone.offsetMatrix = assimp_to_glm_mat4(mesh->mBones[b]->mOffsetMatrix);
+	for(unsigned int c = 0; c < mesh->mBones[b]->mNumWeights; c++){
+	  BoneConfig bc;
+	  bc.vertex_id = mesh->mBones[b]->mWeights[c].mVertexId;
+	  bc.weight = mesh->mBones[b]->mWeights[c].mWeight;
+	  bone.configs.push_back(bc);
+	}
+	timeline->bones->push_back(bone);
       }
-      timeline->bones->push_back(bone);
     }
 
     for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
@@ -133,14 +135,14 @@ namespace OpenGLEngine {
         }
 
       }
-
+      
     }
     
     for(auto b : *timeline->bones){
       std::cout << "Bone: " << b.name << std::endl;
     }
 
-    e_mesh->loadGeometryToGpu(*vertices, *normals, *coords, *indices);
+    e_mesh->loadGeometryToGpu(*vertices, *normals, *coords, *indices, timeline->getUniqueBones());
 
     if(shaderType == Shader::VERTEX_FRAGMENT_SHADERS)
       e_shader->loadShaderToGpu("assets/shaders/diffuse/diffuse");
@@ -206,31 +208,8 @@ namespace OpenGLEngine {
 
   void Importer::setupSkeletonHirearchy(const aiScene* scene, Timeline* timeline, unsigned int level, aiNode* nodeLevel, std::vector<aiNode*> used) {
     
-    for(Bone bone : *timeline->bones){
-
-      for(unsigned int i = 0; i < nodeLevel->mNumChildren; i++){
-	bool duplicate = false;
-	for(unsigned int n = 0; n < used.size(); n++){
-	  if(used[n] == nodeLevel->mChildren[i]){
-	    duplicate = true;
-	  }
-	}
-
-	if(!duplicate){
-	  used.push_back(nodeLevel->mChildren[i]);
-	  if(bone.name == nodeLevel->mName.C_Str() && !bone.configured){	
-	    std::cout << bone.name << std::endl;
-	    bone.hirearchical_level = level;
-	    bone.configured = true;
-	    break;
-	  }
-	  setupSkeletonHirearchy(scene, timeline, level++, nodeLevel->mChildren[i], used);
-	}
-	
-      }
-      
-    }
-     
+    
+    
   }
   
   
@@ -264,6 +243,11 @@ namespace OpenGLEngine {
       m_format = Mesh::ModelFormat::FORMAT_DAE;
     }
 
+
+
+    processAnimation(scene);
+    
+    
     #ifdef __APPLE__
 
     std::regex pattern;
@@ -296,19 +280,15 @@ namespace OpenGLEngine {
     #endif
 
 
-    processAnimation(scene);
+    
     std::vector<aiNode*> used;
     setupSkeletonHirearchy(scene, Timeline::getInstance(), 1, scene->mRootNode, used);
 
 
     Timeline* timeline = Timeline::getInstance();
-    for(unsigned int i = 0; i < 50; i++){
-      std::cout << "Level " << i << std::endl;
-      for(unsigned int j = 0; j < timeline->bones->size(); j++){
-	if(i == timeline->bones->at(j).hirearchical_level)
-	  std::cout << "\t" << timeline->bones->at(j).name << std::endl;
-      }
-    }
+    std::cout << "\n\n\n";
+    for(Bone ubone : timeline->getUniqueBones())
+      std::cout << ubone.name << std::endl;
     
     return out;
 

@@ -27,14 +27,14 @@ namespace OpenGLEngine {
     Mesh(unsigned int id, std::string name, glm::mat4 global_inverse_matrix);
     virtual ~Mesh();
 
-    void loadGeometryToGpu(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> coords, std::vector<unsigned int> indices);
+    void loadGeometryToGpu(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> coords, std::vector<unsigned int> indices, std::vector<Bone> bones);
     void update();
 
     Transform& getTransform();
 
   private:
 
-    GLuint vbo[4], vao;
+    GLuint vbo[5], vao;
     unsigned int indicesSize;
     Transform* transform;
 

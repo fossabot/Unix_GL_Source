@@ -19,6 +19,7 @@ namespace OpenGLEngine {
     void play();
     void pause();
     void next();
+    std::vector<Bone> getUniqueBones();
     
     std::vector<Animation> animations;
     std::vector<Bone>* bones;

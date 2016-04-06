@@ -40,5 +40,31 @@ namespace OpenGLEngine {
   void Timeline::next(){
 
   }
+
+  std::vector<Bone> Timeline::getUniqueBones(){
+    
+    std::vector<Bone> ubones;
+    
+        
+    for(AnimationChannel ch : animations[0].channels){
+
+      for(Bone bone : *bones){
+	bool found = false;
+	for(Bone ubone : ubones){
+	  if(ubone.name == bone.name){
+	    found = true;
+	  }
+	}
+	if(!found){
+	  if(ch.name == bone.name)
+	    ubones.push_back(bone);
+	}
+      }
+
+    }
+    
+    return ubones;
+    
+  }
   
 }

@@ -10,7 +10,7 @@ namespace OpenGLEngine {
   
   struct BoneConfig{
     unsigned int vertex_id;
-    double weight;
+    float weight;
   };
 
   struct Bone {
