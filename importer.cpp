@@ -10,13 +10,13 @@ namespace OpenGLEngine {
 				assimp[1][0], assimp[1][1], assimp[1][2], assimp[1][3],
 				assimp[2][0], assimp[2][1], assimp[2][2], assimp[2][3],
 				assimp[3][0], assimp[3][1], assimp[3][2], assimp[3][3]);
-    
+
     return temp;
-    
+
   }
-  
+
   void Importer::processNode(aiNode *node, const aiScene *scene, Gameobject* out, std::string path, unsigned int shaderType, const Mesh::ModelFormat model_format) {
-    
+
     for(unsigned int i = 0; i < node->mNumMeshes; i++) {
 
       aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -31,7 +31,7 @@ namespace OpenGLEngine {
     }
 
   }
-  
+
   MeshRenderer* Importer::processMesh(aiMesh* mesh, const aiScene* scene, std::string path, unsigned int shaderType, const Mesh::ModelFormat model_format) {
 
     MeshRenderer* mr = new MeshRenderer();
@@ -135,9 +135,9 @@ namespace OpenGLEngine {
         }
 
       }
-      
+
     }
-    
+
     for(auto b : *timeline->bones){
       std::cout << "Bone: " << b.name << std::endl;
     }
@@ -154,7 +154,7 @@ namespace OpenGLEngine {
     e_material->setNormalTexture(e_normal);
     e_material->setSpecularTexture(e_specular);
 
-    
+
     vertices->clear();
     delete vertices;
 
@@ -174,9 +174,9 @@ namespace OpenGLEngine {
   }
 
   void Importer::processAnimation(const aiScene *scene) {
-    
+
     Timeline* timeline = Timeline::getInstance();
-    
+
     for(unsigned int i = 0; i < scene->mNumAnimations; i++) {
 
       Animation anim;
@@ -199,20 +199,20 @@ namespace OpenGLEngine {
 	}
 	anim.channels.push_back(channel);
       }
-      timeline->animations.push_back(anim);   
-    }    
+      timeline->animations.push_back(anim);
+    }
 
     timeline->play();
-    
+
   }
 
   void Importer::setupSkeletonHirearchy(const aiScene* scene, Timeline* timeline, unsigned int level, aiNode* nodeLevel, std::vector<aiNode*> used) {
-    
-    
-    
+
+
+
   }
-  
-  
+
+
   Gameobject* Importer::importModel(std::string path, unsigned int shaderType) {
 
     Gameobject* out = new Gameobject();
@@ -227,12 +227,12 @@ namespace OpenGLEngine {
       return NULL;
     }
 
-    
+
     aiMatrix4x4 tr = scene->mRootNode->mTransformation;
-    tr.Inverse(); // go to origin do some transofmrations and then inverse again
+    //tr.Inverse(); // go to origin do some transofmrations and then inverse again
     global_inverse_transform = assimp_to_glm_mat4(tr);
-    
-    
+
+
     std::string s_format = path.substr(path.length()-4, path.length());
     Mesh::ModelFormat m_format;
     if (s_format == ".obj") {
@@ -246,8 +246,8 @@ namespace OpenGLEngine {
 
 
     processAnimation(scene);
-    
-    
+
+
     #ifdef __APPLE__
 
     std::regex pattern;
@@ -257,7 +257,7 @@ namespace OpenGLEngine {
       pattern = std::regex("(.*)\\/(.*)\\.fbx");
     else if(m_format == Mesh::ModelFormat::FORMAT_DAE)
       patter = std::regex("(.*)\\/(.*)\\.dae");
-    
+
     std::smatch pieces_match;
     if(std::regex_match(path, pieces_match, pattern)) {
       std::ssub_match sub_match = pieces_match[1];
@@ -270,17 +270,17 @@ namespace OpenGLEngine {
     while(num_slashes > 0) {
       if(path[len_path] == '/')
 	num_slashes--;
-      
+
       len_path--;
     }
     std::string final = path.substr(0, len_path+1);
 
-    
+
     processNode(scene->mRootNode, scene, out, final, shaderType, m_format);
     #endif
 
 
-    
+
     std::vector<aiNode*> used;
     setupSkeletonHirearchy(scene, Timeline::getInstance(), 1, scene->mRootNode, used);
 
@@ -289,7 +289,7 @@ namespace OpenGLEngine {
     std::cout << "\n\n\n";
     for(Bone ubone : timeline->getUniqueBones())
       std::cout << ubone.name << std::endl;
-    
+
     return out;
 
   }
