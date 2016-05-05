@@ -7,12 +7,6 @@
 namespace OpenGLEngine {
 
   // WINDOW SURFACE MANAGEMENT ---------------------------------------------------
-  int Display::width = 512;
-  int Display::height = 512;
-  int Display::mouseRelX = 0;
-  int Display::mouseRelY = 0;
-
-
   bool Display::isRunning() {
 
     return running;
@@ -21,23 +15,23 @@ namespace OpenGLEngine {
 
   int Display::getWindowWidth() {
 
-    return Display::width;
+    return width;
 
   }
 
   int Display::getWindowHeight() {
 
-    return Display::height;
+    return height;
 
   }
 
   void Display::getDisplayResolution(int *x, int *y) {
-
+    *x = width; *y = height;
   }
 
   void Display::swapBuffers() {
 
-    SDL_GetWindowSize(window, &Display::width, &Display::height);
+    SDL_GetWindowSize(window, &width, &height);
     glViewport(0, 0, Display::width, Display::height);
     SDL_GL_SwapWindow(window);
 
@@ -122,9 +116,9 @@ namespace OpenGLEngine {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     std::cout << "\n\nEngine Starting.\n";
-    framebuffer->initialize();
+    framebuffer->initialize(Display::width, Display::height);
     usingFramebuffer = true;
-    scene->initialize();
+    scene->initialize(Display::width, Display::height);
     numEffects = 1;
     windowTitle = "GLSL TWEAKS  ";
     windowEffect = " [default] ";
@@ -174,13 +168,10 @@ namespace OpenGLEngine {
 
   void Display::captureScreenshot() {
 
-    int width = 512;
-    int height = 512;
-
-    int pixels[width][height];
+    int pixels[Display::width][Display::height];
     glReadBuffer(GL_BACK);
     glPixelStoref(GL_UNPACK_ALIGNMENT, 1);
-    glReadPixels(0, 0, height, width, GL_RGB, GL_UNSIGNED_BYTE, &pixels[0][0]);
+    glReadPixels(0, 0, Display::height, Display::width, GL_RGB, GL_UNSIGNED_BYTE, &pixels[0][0]);
     int temp_num = currentCapturedFrame, digits = 0;
     while (temp_num)
     {
@@ -194,7 +185,7 @@ namespace OpenGLEngine {
         ss << "0";
     }
     ss << currentCapturedFrame;
-    stbi_write_png(std::string("assets/screenshots/shot").append(ss.str()).append(std::string(".png")).c_str(), height, width, 3, &pixels[0][0], 0);
+    stbi_write_png(std::string("assets/screenshots/shot").append(ss.str()).append(std::string(".png")).c_str(), Display::height, Display::width, 3, &pixels[0][0], 0);
   }
   // -----------------------------------------------------------------------------
 
@@ -219,27 +210,27 @@ namespace OpenGLEngine {
             switch (numEffects) {
 
               case 0:
-                framebuffer->reset("assets/shaders/framebuffer/framebuffer");
+                framebuffer->reset("assets/shaders/framebuffer/framebuffer", Display::width, Display::height);
                 windowEffect = " [default] ";
               break;
 
               case 1:
-                framebuffer->reset("assets/shaders/framebuffer_inverted/framebuffer_inverted");
+                framebuffer->reset("assets/shaders/framebuffer_inverted/framebuffer_inverted", Display::width, Display::height);
                 windowEffect = " [inverted] ";
               break;
 
               case 2:
-                framebuffer->reset("assets/shaders/framebuffer_scanline/framebuffer_scanline");
+                framebuffer->reset("assets/shaders/framebuffer_scanline/framebuffer_scanline", Display::width, Display::height);
                 windowEffect = " [scanline] ";
               break;
 
               case 3:
-                framebuffer->reset("assets/shaders/framebuffer_blur/framebuffer_blur");
+                framebuffer->reset("assets/shaders/framebuffer_blur/framebuffer_blur", Display::width, Display::height);
                 windowEffect = " [blur] ";
               break;
 
               case 4:
-                framebuffer->reset("assets/shaders/framebuffer_godrays/framebuffer_godrays");
+                framebuffer->reset("assets/shaders/framebuffer_godrays/framebuffer_godrays", Display::width, Display::height);
                 windowEffect = " [godrays] ";
                 numEffects = -1;
               break;

@@ -14,7 +14,7 @@ namespace OpenGLEngine {
   	this->SetRotation(glm::quat());
 
   	this->SetViewport(0, 0, screenWidth, screenHeight);
-  	this->SetProjectionRH(70.0f, screenWidth / (float)screenHeight, 0.01f, 50000.0f);
+  	this->SetProjectionRH(70.0f, (float)screenWidth / (float)screenHeight, 0.01f, 50000.0f);
 
     speed = 0.02f;
     smoothnessX = smoothnessY = 0.05f;
@@ -30,7 +30,7 @@ namespace OpenGLEngine {
   	this->SetRotation(glm::quat());
 
   	this->SetViewport(0, 0, screenWidth, screenHeight);
-  	this->SetProjectionRH(70.0f, screenWidth / (float)screenHeight, 0.01f, 50000.0f);
+  	this->SetProjectionRH(70.0f, (float)screenWidth / (float)screenHeight, 0.01f, 50000.0f);
 
     speed = 0.02f;
     smoothnessX = smoothnessY = 0.05f;

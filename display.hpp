@@ -30,15 +30,15 @@ namespace OpenGLEngine {
 
       // WINDOW SURFACE MANAGEMENT -----------------------------------------------
       bool isRunning();
-      static int getWindowWidth();
-      static int getWindowHeight();
-      static void getDisplayResolution(int *x, int *y);
+      int getWindowWidth();
+      int getWindowHeight();
+      void getDisplayResolution(int *x, int *y);
       // -------------------------------------------------------------------------
 
     private:
       // CONSTRUCTORS ------------------------------------------------------------
       Display(){
-
+        width = 640, height = 720, mouseRelX = 0, mouseRelY = 0;
         running = false;
         scene = new Scene();
         framebuffer = new Framebuffer();
@@ -53,7 +53,7 @@ namespace OpenGLEngine {
       SDL_Window* window;
       SDL_GLContext context;
       void swapBuffers();
-      static int width, height, mouseRelX, mouseRelY;
+      int width, height, mouseRelX, mouseRelY;
       bool running, usingFramebuffer;
       // -------------------------------------------------------------------------
 

@@ -17,8 +17,8 @@ namespace OpenGLEngine {
       ~Framebuffer();
 
       void clean();
-      void reset(const std::string& filename);
-      void initialize();
+      void reset(const std::string& filename, int width, int height);
+      void initialize(int width, int height);
       void bind();
       void drawToScreen();
 

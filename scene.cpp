@@ -24,7 +24,7 @@ namespace OpenGLEngine {
 
 
   // FUNCTIONS -----------------------------------------------------------------------
-  void Scene::initialize() {
+  void Scene::initialize(int width, int height) {
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
@@ -32,7 +32,7 @@ namespace OpenGLEngine {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     gobjects = new std::vector<Gameobject*>();
-    mainCamera = new Camera(glm::vec3(0.0, 1.1, 3.0), 512, 512);
+    mainCamera = new Camera(glm::vec3(0.0, 1.1, 3.0), width, height);
 
     importer = new Importer();
     gobjects->push_back(importer->importModel("assets/models/nervous/nervous.dae", Shader::VERTEX_FRAGMENT_SHADERS));

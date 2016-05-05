@@ -5,7 +5,6 @@
 #include "importer.hpp"
 
 
-
 namespace OpenGLEngine {
 
   class Scene {
@@ -14,7 +13,7 @@ namespace OpenGLEngine {
 
       Scene();
       ~Scene();
-      void initialize();
+      void initialize(int width, int height);
       void render2D(float deltaTime);
       void render3D(float deltaTime);
       void interruptKeyboard(int type, int key);
