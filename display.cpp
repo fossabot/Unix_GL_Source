@@ -56,7 +56,6 @@ namespace OpenGLEngine {
     delete Manager::getInstance();
     SDL_GL_DeleteContext(context);
 	  SDL_DestroyWindow(window);
-    SDL_Quit();
     delete scene;
     delete framebuffer;
 
