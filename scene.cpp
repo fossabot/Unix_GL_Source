@@ -29,7 +29,7 @@ namespace OpenGLEngine {
     m_gobjects = new std::vector<Gameobject*>();
     m_mainCamera = new Camera(glm::vec3(0.0, 1.1, 3.0), width, height);
     m_importer = new Importer();
-    m_gobjects->push_back(m_importer->importModel("assets/models/nervous/nervous.dae", Shader::VERTEX_FRAGMENT_SHADERS));
+    m_gobjects->push_back(m_importer->importModel("assets/models/monkey/monkey.obj", Shader::VERTEX_FRAGMENT_SHADERS));
     skybox = new Skybox();
     skybox->load();
   }

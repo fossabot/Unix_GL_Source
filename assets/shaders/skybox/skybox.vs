@@ -11,6 +11,7 @@ uniform mat4 Projection;
 
 void main()
 {
-    gl_Position = Projection * View * vec4(VertexPosition, 1.0);
+    vec4 mvp = Projection * View * vec4(VertexPosition, 1.0);
+    gl_Position = mvp.xyzw;
     Texcoord = VertexPosition;
 }
