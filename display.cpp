@@ -110,7 +110,7 @@ namespace OpenGLEngine {
     m_scene->render3D(EngineTime::DeltaTime());
     //Draw texture to screen
     if(m_usingFramebuffer)
-      m_framebuffer->drawToScreen();
+      m_framebuffer->drawToScreen(m_width, m_height);
 
     if(m_currentCapturedFrame > 0) {
       captureScreenshot();

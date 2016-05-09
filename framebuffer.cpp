@@ -65,6 +65,7 @@ namespace OpenGLEngine {
     glBindTexture(GL_TEXTURE_2D, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture_color0, 0);
 
+
     glGenRenderbuffers(1, &m_rbo);
     glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
@@ -73,7 +74,21 @@ namespace OpenGLEngine {
 
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
       std::cout << "ERROR::FRAMEBUFFER::Framebuffer is not complete!" << std::endl;
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+
+    glGenTextures(1, &m_multisample_texture);
+    glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_multisample_texture);
+    glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, width, height, GL_TRUE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, m_multisample_texture, 0);
+
+
+    glGenFramebuffers(1, &m_multisample_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_multisample_fbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture_color0, 0);
+
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+      std::cout << "ERROR::FRAMEBUFFER::Multisampling Framebuffer is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
   }
 
@@ -84,7 +99,7 @@ namespace OpenGLEngine {
     glEnable(GL_DEPTH_TEST);
   }
 
-  void Framebuffer::drawToScreen() {
+  void Framebuffer::drawToScreen(int width, int height) {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearColor(0.2, 0.2, 0.2, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -93,6 +108,24 @@ namespace OpenGLEngine {
     m_screenShader->update(*m_transform, *m_screenCamera, 1.0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture_color0);
+    glUniform1i(glGetUniformLocation(m_screenShader->Program(), "screenTexture"), 0);
+    glBindVertexArray(m_quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, m_fbo);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_multisample_fbo);
+    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDisable(GL_DEPTH_TEST);
+
+    m_screenShader->bind();
+    m_screenShader->update(*m_transform, *m_screenCamera, 1.0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_multisample_fbo);
     glUniform1i(glGetUniformLocation(m_screenShader->Program(), "screenTexture"), 0);
     glBindVertexArray(m_quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
