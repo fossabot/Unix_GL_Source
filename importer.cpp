@@ -133,7 +133,7 @@ namespace OpenGLEngine {
     e_mesh->loadGeometryToGpu(*vertices, *normals, *coords, *indices);
 
     if(shaderType == Shader::VERTEX_FRAGMENT_SHADERS)
-      e_shader->loadShaderToGpu("assets/shaders/diffuse/diffuse");
+      e_shader->loadShaderToGpu("assets/shaders/reflection/reflection");
     else if(shaderType == Shader::VERTEX_GEOMETRY_FRAGMENT_SHADERS)
       e_shader->loadShaderToGpu("assets/shaders/geometry/geometry");
 

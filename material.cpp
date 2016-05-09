@@ -18,6 +18,11 @@ namespace OpenGLEngine {
     m_diffusetexture->bind(m_shader->Program(), 0);
     m_normaltexture->bind(m_shader->Program(), 1);
     m_speculartexture->bind(m_shader->Program(), 2);
+    // std::stringstream ss;
+    // ss << "skyboxTexture";
+    // glActiveTexture(GL_TEXTURE0 + 3);
+    // glBindTexture(GL_TEXTURE_2D, skybox.getCubemapTexture());
+    // glUniform1i(glGetUniformLocation(m_shader->Program(), ss.str().c_str()), 3);
   }
 
   void Material::unbind() {

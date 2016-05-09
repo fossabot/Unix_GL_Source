@@ -12,6 +12,7 @@ namespace OpenGLEngine {
     ~Skybox();
     void load();
     void bind(Camera camera, float deltaTime);
+    GLuint& getCubemapTexture();
 
   private:
     GLuint m_quadVBO, m_quadVAO;

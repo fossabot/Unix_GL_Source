@@ -110,4 +110,8 @@ namespace OpenGLEngine {
     glDepthMask(GL_TRUE);
   }
 
+  GLuint& Skybox::getCubemapTexture() {
+    return m_cubemap_texture_id;
+  }
+
 }

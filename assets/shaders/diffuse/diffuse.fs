@@ -12,6 +12,7 @@ in VertexData {
 uniform sampler2D texture_0;
 uniform sampler2D texture_1;
 uniform sampler2D texture_2;
+uniform samplerCube skyboxTexture;
 
 uniform mat4 Model;
 uniform mat4 View;
@@ -26,7 +27,6 @@ out vec4 FragColor;
 
 
 void main() {
-
   FragColor = vec4(vertex_data_in.light_intensity, 1.0) * texture(texture_0, vertex_data_in.texcoord);
 
 }
