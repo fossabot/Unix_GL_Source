@@ -16,6 +16,8 @@ namespace OpenGLEngine {
   	this->SetViewport(0, 0, screenWidth, screenHeight);
   	this->SetProjectionRH(70.0f, (float)screenWidth / (float)screenHeight, 0.01f, 50000.0f);
 
+    g_Raycast = glm::vec3(0.0, 0.0, 1.0);
+    
     speed = 0.02f;
     smoothnessX = smoothnessY = 0.05f;
   }
@@ -31,6 +33,8 @@ namespace OpenGLEngine {
 
   	this->SetViewport(0, 0, screenWidth, screenHeight);
   	this->SetProjectionRH(70.0f, (float)screenWidth / (float)screenHeight, 0.01f, 50000.0f);
+
+    g_Raycast = glm::vec3(0.0, 0.0, 1.0);
 
     speed = 0.02f;
     smoothnessX = smoothnessY = 0.05f;

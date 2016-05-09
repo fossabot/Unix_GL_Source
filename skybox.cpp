@@ -70,12 +70,12 @@ namespace OpenGLEngine {
     glBindVertexArray(0);
 
     std::vector<const char*> faces;
-    faces.push_back("assets/textures/right.jpg");
-    faces.push_back("assets/textures/left.jpg");
-    faces.push_back("assets/textures/top.jpg");
-    faces.push_back("assets/textures/bottom.jpg");
-    faces.push_back("assets/textures/back.jpg");
-    faces.push_back("assets/textures/front.jpg");
+    faces.push_back("assets/textures/pos-x.png");
+    faces.push_back("assets/textures/neg-x.png");
+    faces.push_back("assets/textures/pos-y.png");
+    faces.push_back("assets/textures/neg-y.png");
+    faces.push_back("assets/textures/pos-z.png");
+    faces.push_back("assets/textures/neg-z.png");
 
     glGenTextures(1, &m_cubemap_texture_id);
     glActiveTexture(GL_TEXTURE0);

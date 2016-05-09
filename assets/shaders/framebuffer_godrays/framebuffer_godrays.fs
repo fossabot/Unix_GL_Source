@@ -21,7 +21,7 @@ out vec4 FragColor;
 
 void main() {
 
-  int samples = 128;
+  int samples = 64;
   float intensity = 0.025, decay = 0.96875;
   vec2 texcoord = vec2(vertex_data_in.texcoord), direction = vec2(0.5) - texcoord;
   direction /= samples;
