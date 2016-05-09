@@ -38,23 +38,22 @@ namespace OpenGLEngine {
     private:
       // CONSTRUCTORS ------------------------------------------------------------
       Display(){
-        width = 640, height = 720, mouseRelX = 0, mouseRelY = 0;
-        running = false;
-        scene = new Scene();
-        framebuffer = new Framebuffer();
-
+        m_width = 640, m_height = 720, m_mouseRelX = 0, m_mouseRelY = 0;
+        m_running = false;
+        m_scene = new Scene();
+        m_framebuffer = new Framebuffer();
       };
       Display(Display const&){};
-      static Display* instance;
+      static Display* m_instance;
       // -------------------------------------------------------------------------
 
 
       // WINDOW SURFACE MANAGEMENT -----------------------------------------------
-      SDL_Window* window;
-      SDL_GLContext context;
+      SDL_Window* m_window;
+      SDL_GLContext m_context;
       void swapBuffers();
-      int width, height, mouseRelX, mouseRelY;
-      bool running, usingFramebuffer;
+      int m_width, m_height, m_mouseRelX, m_mouseRelY;
+      bool m_running, m_usingFramebuffer;
       // -------------------------------------------------------------------------
 
 
@@ -64,11 +63,11 @@ namespace OpenGLEngine {
 
 
       // VARS --------------------------------------------------------------------
-      Scene* scene;
-      Framebuffer* framebuffer;
-      unsigned int numEffects;
-      std::string windowTitle, windowFps, windowEffect;
-      int currentCapturedFrame;
+      Scene* m_scene;
+      Framebuffer* m_framebuffer;
+      unsigned int m_numEffects;
+      std::string m_windowTitle, m_windowFps, m_windowEffect;
+      int m_currentCapturedFrame;
       // -------------------------------------------------------------------------
 
   };

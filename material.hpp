@@ -9,14 +9,10 @@
 
 
 namespace OpenGLEngine {
-
   class Material {
-
     public:
-
       Material();
-      virtual ~Material();
-
+      ~Material();
       void bind(Transform worldTransform, Camera mainCamera, float deltaTime);
       void unbind();
       void setShader(Shader *shader);
@@ -25,12 +21,9 @@ namespace OpenGLEngine {
       void setSpecularTexture(Texture *texture);
 
     private:
-
-      Texture *diffusetexture, *normaltexture, *speculartexture;
-      Shader *shader;
-
+      Texture *m_diffusetexture, *m_normaltexture, *m_speculartexture;
+      Shader *m_shader;
   };
-
 }
 
 

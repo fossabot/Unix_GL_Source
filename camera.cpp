@@ -114,12 +114,12 @@ namespace OpenGLEngine {
   	m_ViewDirty = true;
   }
 
-  glm::mat4 Camera::GetProjectionMatrix()
+  glm::mat4 Camera::Projection()
   {
   	return m_ProjectionMatrix;
   }
 
-  glm::mat4 Camera::GetViewMatrix()
+  glm::mat4 Camera::View()
   {
   	UpdateViewMatrix();
   	return m_ViewMatrix;

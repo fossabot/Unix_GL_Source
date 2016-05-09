@@ -3,16 +3,12 @@
 
 
 namespace OpenGLEngine {
-
-
   std::string FramebufferShader::loadShaderCode(const std::string& filename)
   {
   	std::ifstream file;
   	file.open((filename).c_str());
-
   	std::string output;
   	std::string line;
-
   	if (file.is_open())
   	{
   		while (file.good())
@@ -51,7 +47,6 @@ namespace OpenGLEngine {
   GLuint FramebufferShader::createShader(const std::string& text, unsigned int type)
   {
   	GLuint shader = glCreateShader(type);
-
   	if (shader == 0)
   		std::cerr << "Error compiling shader type " << type << std::endl;
 
@@ -59,12 +54,9 @@ namespace OpenGLEngine {
   	p[0] = text.c_str();
   	GLint lengths[1];
   	lengths[0] = text.length();
-
   	glShaderSource(shader, 1, p, lengths);
   	glCompileShader(shader);
-
   	checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!");
-
   	return shader;
   }
 
@@ -72,83 +64,59 @@ namespace OpenGLEngine {
   FramebufferShader::FramebufferShader() {}
 
   FramebufferShader::~FramebufferShader() {
-
     clean();
-
   }
 
   void FramebufferShader::clean() {
-
     for(unsigned int i = 0; i < NUM_SHADERS; i++) {
-      glDetachShader(program, shaders[i]);
-      glDeleteShader(shaders[i]);
+      glDetachShader(m_program, m_shaders[i]);
+      glDeleteShader(m_shaders[i]);
     }
-    glDeleteProgram(program);
-
+    glDeleteProgram(m_program);
   }
 
   void FramebufferShader::reset(const std::string& filename) {
-
     clean();
     loadShaderToGpu(filename);
-
-  }
-  // -----------------------------------------------------------------------
-
-
-
-  // FUNCTIONS -------------------------------------------------------------
-  void FramebufferShader::initialize() {
-
   }
 
+  void FramebufferShader::initialize() {}
 
   void FramebufferShader::setupAttributes() {
-
-    glBindAttribLocation(program, 0, "VertexPosition");
-    glBindAttribLocation(program, 2, "VertexTexcoord");
-
+    glBindAttribLocation(m_program, 0, "VertexPosition");
+    glBindAttribLocation(m_program, 1, "VertexTexcoord");
   }
 
   void FramebufferShader::linkNValidate() {
-
-    glLinkProgram(program);
-    checkShaderError(program, GL_LINK_STATUS, true, "Error linking shader program");
-
-    glValidateProgram(program);
-    checkShaderError(program, GL_LINK_STATUS, true, "Invalid shader program");
-
+    glLinkProgram(m_program);
+    checkShaderError(m_program, GL_LINK_STATUS, true, "Error linking shader program");
+    glValidateProgram(m_program);
+    checkShaderError(m_program, GL_LINK_STATUS, true, "Invalid shader program");
   }
 
   void FramebufferShader::setupUniforms() {
-
-    uniforms[MODEL_U] = glGetUniformLocation(program, "Model");
-    uniforms[VIEW_U] = glGetUniformLocation(program, "View");
-    uniforms[PROJECTION_U] = glGetUniformLocation(program, "Projection");
-    uniforms[CAMERA_POSITION] = glGetUniformLocation(program, "CameraPosition");
-    uniforms[CAMERA_DIRECTION] = glGetUniformLocation(program, "CameraDirection");
-    uniforms[DELTATIME] = glGetUniformLocation(program, "DeltaTime");
-    uniforms[TIME] = glGetUniformLocation(program, "Time");
-
+    m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "Model");
+    m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "View");
+    m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "Projection");
+    m_uniforms[CAMERA_POSITION] = glGetUniformLocation(m_program, "CameraPosition");
+    m_uniforms[CAMERA_DIRECTION] = glGetUniformLocation(m_program, "CameraDirection");
+    m_uniforms[DELTATIME] = glGetUniformLocation(m_program, "DeltaTime");
+    m_uniforms[TIME] = glGetUniformLocation(m_program, "Time");
   }
 
   void FramebufferShader::loadShaderToGpu(const std::string& filename) {
-
-    program = glCreateProgram();
-    shaders[VERTEX_SHADER] = createShader(loadShaderCode(filename + ".vs"), GL_VERTEX_SHADER);
-    shaders[FRAGMENT_SHADER] = createShader(loadShaderCode(filename + ".fs"), GL_FRAGMENT_SHADER);
-
+    m_program = glCreateProgram();
+    m_shaders[VERTEX_SHADER] = createShader(loadShaderCode(filename + ".vs"), GL_VERTEX_SHADER);
+    m_shaders[FRAGMENT_SHADER] = createShader(loadShaderCode(filename + ".fs"), GL_FRAGMENT_SHADER);
     for (unsigned int i = 0; i < NUM_SHADERS; i++)
-      glAttachShader(program, shaders[i]);
-
+      glAttachShader(m_program, m_shaders[i]);
     setupAttributes();
     linkNValidate();
     setupUniforms();
-
   }
 
   void FramebufferShader::bind() {
-    glUseProgram(program);
+    glUseProgram(m_program);
   }
 
   void FramebufferShader::unbind() {
@@ -156,28 +124,19 @@ namespace OpenGLEngine {
   }
 
   void FramebufferShader::update(Transform worldTransform, Camera mainCamera, float deltaTime) {
-
   	glm::mat4 model = worldTransform.Model();
-  	glm::mat4 view = mainCamera.GetViewMatrix();
-  	glm::mat4 projection = mainCamera.GetProjectionMatrix();
-  	glUniformMatrix4fv(uniforms[MODEL_U], 1, 0, &model[0][0]);
-  	glUniformMatrix4fv(uniforms[VIEW_U], 1, 0, &view[0][0]);
-  	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, 0, &projection[0][0]);
-  	glUniform3fv(uniforms[CAMERA_POSITION], 1, &mainCamera.GetPosition()[0]);
-    glUniform3fv(uniforms[CAMERA_DIRECTION], 1, &mainCamera.GetDirection()[0]);
-    glUniform1f(uniforms[TIME], SDL_GetTicks());
-  	glUniform1f(uniforms[DELTATIME], deltaTime);
-
+  	glm::mat4 view = mainCamera.View();
+  	glm::mat4 projection = mainCamera.Projection();
+  	glUniformMatrix4fv(m_uniforms[MODEL_U], 1, 0, &model[0][0]);
+  	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, 0, &view[0][0]);
+  	glUniformMatrix4fv(m_uniforms[PROJECTION_U], 1, 0, &projection[0][0]);
+  	glUniform3fv(m_uniforms[CAMERA_POSITION], 1, &mainCamera.GetPosition()[0]);
+    glUniform3fv(m_uniforms[CAMERA_DIRECTION], 1, &mainCamera.GetDirection()[0]);
+    glUniform1f(m_uniforms[TIME], SDL_GetTicks());
+  	glUniform1f(m_uniforms[DELTATIME], deltaTime);
   }
-  // -----------------------------------------------------------------------
 
-
-
-  // GETTERS & SETTERS -----------------------------------------------------
   GLuint FramebufferShader::Program() {
-    return program;
+    return m_program;
   }
-  // -----------------------------------------------------------------------
-
-
 }

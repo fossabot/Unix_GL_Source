@@ -7,30 +7,21 @@ namespace OpenGLEngine {
   MeshRenderer::MeshRenderer() {}
 
   MeshRenderer::~MeshRenderer() {
-
-    delete mesh;
-    delete material;
-
+    delete m_mesh;
+    delete m_material;
   }
 
   void MeshRenderer::update(Camera mainCamera, float deltaTime) {
-
-    material->bind(mesh->getTransform(), mainCamera, deltaTime);
-    mesh->update();
-    material->unbind();
-
+    m_material->bind(m_mesh->getTransform(), mainCamera, deltaTime);
+    m_mesh->update();
+    m_material->unbind();
   }
 
   void MeshRenderer::setMesh(Mesh* mesh) {
-
-    this->mesh = mesh;
-
+    m_mesh = mesh;
   }
 
   void MeshRenderer::setMaterial(Material* material) {
-
-    this->material = material;
-
+    m_material = material;
   }
-
 }

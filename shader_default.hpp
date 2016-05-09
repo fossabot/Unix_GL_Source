@@ -9,32 +9,24 @@
 
 
 namespace OpenGLEngine {
-
   class DefaultShader : public Shader {
-
     public:
-
       DefaultShader();
       virtual ~DefaultShader();
       virtual void initialize();
       void update(Transform worldTransform, Camera mainCamera, float deltaTime);
-
       void loadShaderToGpu(const std::string& filename);
       void bind();
       void unbind();
       GLuint Program();
 
     private:
-
-      enum
-      {
+      enum {
         VERTEX_SHADER,
         FRAGMENT_SHADER,
-
         NUM_SHADERS
       };
-      enum
-      {
+      enum {
         MODEL_U,
         VIEW_U,
         PROJECTION_U,
@@ -42,14 +34,12 @@ namespace OpenGLEngine {
         CAMERA_DIRECTION,
         DELTATIME,
         TIME,
-
         NUM_UNIFORMS
       };
 
-      GLuint shaders[NUM_SHADERS];
-      GLuint uniforms[NUM_UNIFORMS];
-
-      GLuint program;
+      GLuint m_shaders[NUM_SHADERS];
+      GLuint m_uniforms[NUM_UNIFORMS];
+      GLuint m_program;
 
       GLuint createShader(const std::string& text, unsigned int type);
       std::string loadShaderCode(const std::string& filename);
@@ -58,9 +48,7 @@ namespace OpenGLEngine {
       void setupAttributes();
       void linkNValidate();
       void setupUniforms();
-
   };
-
 }
 
 #endif

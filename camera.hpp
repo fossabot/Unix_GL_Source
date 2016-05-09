@@ -54,8 +54,8 @@ namespace OpenGLEngine {
 
     	// Rotate the camera by some amount.
     	void Rotate(const glm::quat& rot);
-    	glm::mat4 GetProjectionMatrix();
-    	glm::mat4 GetViewMatrix();
+    	glm::mat4 Projection();
+    	glm::mat4 View();
     	float g_Pitch = 0.0f;
     	float g_Yaw = 0.0f;
     	int g_W, g_A, g_S, g_D, g_Q, g_E;

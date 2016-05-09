@@ -5,11 +5,8 @@
 
 
 namespace OpenGLEngine {
-
   class Texture {
-
     public:
-
       Texture();
       ~Texture();
       static GLuint staticLoadTexture(const char *filename);
@@ -18,11 +15,8 @@ namespace OpenGLEngine {
       void unbind(unsigned int padding);
 
     private:
-
-      GLuint texture_id;
-
+      GLuint m_texture_id;
   };
-
 }
 
 #endif

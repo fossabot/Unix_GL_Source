@@ -42,7 +42,19 @@ namespace OpenGLEngine {
     std::vector<unsigned int>* indices = new std::vector<unsigned int>();
 
     const std::string mesh_name =  std::string(mesh->mName.C_Str());
-    Mesh* e_mesh = new Mesh(global_inverse_transform);
+    Mesh* e_mesh;
+    switch (model_format) {
+      case Mesh::ModelFormat::FORMAT_DAE:
+        e_mesh = new Mesh(glm::vec3(0.01, 0.01, 0.01));
+      break;
+      case Mesh::ModelFormat::FORMAT_OBJ:
+        e_mesh = new Mesh(glm::vec3(0.5, 0.5, 0.5));
+      break;
+      default:
+        e_mesh = new Mesh(glm::vec3(1.0, 1.0, 1.0));
+      break;
+    }
+
     Material* e_material = new Material();
     Shader* e_shader;
     if(shaderType == Shader::VERTEX_FRAGMENT_SHADERS)
@@ -165,17 +177,10 @@ namespace OpenGLEngine {
     }
 
 
-    aiMatrix4x4 tr = scene->mRootNode->mTransformation;
-    //tr.Inverse(); // go to origin do some transofmrations and then inverse again
-    global_inverse_transform = assimp_to_glm_mat4(tr);
-
-
     std::string s_format = path.substr(path.length()-4, path.length());
     Mesh::ModelFormat m_format;
     if (s_format == ".obj") {
       m_format = Mesh::ModelFormat::FORMAT_OBJ;
-    } else if(s_format == ".fbx") {
-      m_format = Mesh::ModelFormat::FORMAT_FBX;
     } else if(s_format == ".dae") {
       m_format = Mesh::ModelFormat::FORMAT_DAE;
     }
@@ -185,8 +190,6 @@ namespace OpenGLEngine {
     std::regex pattern;
     if(m_format == Mesh::ModelFormat::FORMAT_OBJ)
       pattern = std::regex("(.*)\\/(.*)\\.obj");
-    else if(m_format == Mesh::ModelFormat::FORMAT_FBX)
-      pattern = std::regex("(.*)\\/(.*)\\.fbx");
     else if(m_format == Mesh::ModelFormat::FORMAT_DAE)
       patter = std::regex("(.*)\\/(.*)\\.dae");
 

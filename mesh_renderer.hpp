@@ -7,11 +7,8 @@
 
 
 namespace OpenGLEngine {
-
   class MeshRenderer {
-
     public:
-
       MeshRenderer();
       ~MeshRenderer();
       void update(Camera mainCamera, float deltaTime);
@@ -19,12 +16,9 @@ namespace OpenGLEngine {
       void setMaterial(Material* material);
 
     private:
-
-      Mesh *mesh;
-      Material *material;
-
+      Mesh *m_mesh;
+      Material *m_material;
   };
-
 }
 
 

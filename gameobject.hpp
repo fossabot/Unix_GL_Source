@@ -7,23 +7,16 @@
 
 
 namespace OpenGLEngine {
-
   class Gameobject {
-
     public:
-
       Gameobject();
       ~Gameobject();
-
       void update(Camera mainCamera, float deltaTime);
       void addMeshRenderer(MeshRenderer* mesh_renderer);
 
     private:
-
-      std::vector<MeshRenderer*>* mesh_renderers;
-
+      std::vector<MeshRenderer*>* m_mesh_renderers;
   };
-
 }
 
 #endif

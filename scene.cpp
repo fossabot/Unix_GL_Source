@@ -3,21 +3,17 @@
 namespace OpenGLEngine {
 
   // CONSTRUCTOR & DESTRUCTOR --------------------------------------------------------
-  Scene::Scene() {
-
-  }
+  Scene::Scene() {}
 
   Scene::~Scene() {
-
-    for(Gameobject *go : *gobjects)
+    for(Gameobject *go : *m_gobjects)
       delete go;
 
-    gobjects->clear();
-    delete gobjects;
+    m_gobjects->clear();
+    delete m_gobjects;
 
-    delete importer;
-    delete mainCamera;
-
+    delete m_importer;
+    delete m_mainCamera;
   }
   // ---------------------------------------------------------------------------------
 
@@ -25,33 +21,24 @@ namespace OpenGLEngine {
 
   // FUNCTIONS -----------------------------------------------------------------------
   void Scene::initialize(int width, int height) {
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    gobjects = new std::vector<Gameobject*>();
-    mainCamera = new Camera(glm::vec3(0.0, 1.1, 3.0), width, height);
-
-    importer = new Importer();
-    gobjects->push_back(importer->importModel("assets/models/nervous/nervous.dae", Shader::VERTEX_FRAGMENT_SHADERS));
-
+    m_gobjects = new std::vector<Gameobject*>();
+    m_mainCamera = new Camera(glm::vec3(0.0, 1.1, 3.0), width, height);
+    m_importer = new Importer();
+    m_gobjects->push_back(m_importer->importModel("assets/models/nervous/nervous.dae", Shader::VERTEX_FRAGMENT_SHADERS));
   }
 
   void Scene::render2D(float deltaTime) {
-
     //r = ( cos(SDL_GetTicks()/150) ) ;
-
   }
 
   void Scene::render3D(float deltaTime) {
-
-    mainCamera->updateLocation(deltaTime);
-
-    for(Gameobject *go : *gobjects)
-      go->update(*mainCamera, deltaTime);
-
+    m_mainCamera->updateLocation(deltaTime);
+    for(Gameobject *go : *m_gobjects)
+      go->update(*m_mainCamera, deltaTime);
   }
   // ---------------------------------------------------------------------------------
 
@@ -59,76 +46,54 @@ namespace OpenGLEngine {
 
   // INTERRUPTS ----------------------------------------------------------------------
   void Scene::interruptKeyboard(int type, int key) {
-
     if(type == SDL_KEYDOWN) {
-
       switch (key) {
-
         case SDLK_w:
-          mainCamera->startMovingForward();
+          m_mainCamera->startMovingForward();
         break;
-
         case SDLK_s:
-          mainCamera->startMovingBackward();
+          m_mainCamera->startMovingBackward();
         break;
-
         case SDLK_d:
-          mainCamera->startMovingRight();
+          m_mainCamera->startMovingRight();
         break;
-
         case SDLK_a:
-          mainCamera->startMovingLeft();
+          m_mainCamera->startMovingLeft();
         break;
-
       }
-
     } else if(type == SDL_KEYUP) {
-
       switch (key) {
-
         case SDLK_w:
-          mainCamera->stopMovingForward();
+          m_mainCamera->stopMovingForward();
         break;
-
         case SDLK_s:
-          mainCamera->stopMovingBackward();
+          m_mainCamera->stopMovingBackward();
         break;
-
         case SDLK_d:
-          mainCamera->stopMovingRight();
+          m_mainCamera->stopMovingRight();
         break;
-
         case SDLK_a:
-          mainCamera->stopMovingLeft();
+          m_mainCamera->stopMovingLeft();
         break;
-
       }
-
     }
   }
 
   void Scene::interruptMouse(int type, int button) {
-
     if(type == SDL_MOUSEMOTION) {
-
       int relX, relY;
       SDL_GetRelativeMouseState(&relX, &relY);
-      mainCamera->updateDirection(relX, relY);
-
+      m_mainCamera->updateDirection(relX, relY);
     } else if(type == SDL_MOUSEBUTTONDOWN) {
-      mainCamera->setMouseDown(true);
+      m_mainCamera->setMouseDown(true);
     } else if(type == SDL_MOUSEBUTTONUP) {
-      mainCamera->setMouseDown(false);
+      m_mainCamera->setMouseDown(false);
     }
-
   }
   // ---------------------------------------------------------------------------------
 
 
   Camera* Scene::MainCamera() {
-
-    return mainCamera;
-
+    return m_mainCamera;
   }
-
 }

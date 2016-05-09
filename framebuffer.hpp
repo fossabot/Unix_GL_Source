@@ -7,14 +7,10 @@
 #include "shader_framebuffer.hpp"
 
 namespace OpenGLEngine {
-
   class Framebuffer {
-
     public:
-
       Framebuffer();
       ~Framebuffer();
-
       void clean();
       void reset(const std::string& filename, int width, int height);
       void initialize(int width, int height);
@@ -22,15 +18,12 @@ namespace OpenGLEngine {
       void drawToScreen();
 
     private:
-
-      GLuint quadVBO, quadVAO, texture_color0, fbo, rbo;
-      FramebufferShader* screenShader;
-      Camera* screenCamera;
-      Transform* transform;
-      std::string shaderFilename;
-
+      GLuint m_quadVBO, m_quadVAO, m_texture_color0, m_fbo, m_rbo;
+      FramebufferShader* m_screenShader;
+      Camera* m_screenCamera;
+      Transform* m_transform;
+      std::string m_shaderFilename;
   };
-
 }
 
 #endif
