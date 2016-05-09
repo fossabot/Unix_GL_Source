@@ -41,7 +41,7 @@ namespace OpenGLEngine {
 
     screenCamera = new Camera(glm::vec3(0.0, 0.0, 1.5), width, height);
     transform = new Transform();
-    screenShader = new FramebufferShader(Manager::addShader(), "framebufferShader");
+    screenShader = new FramebufferShader();
 
 
     GLfloat quad[] = {

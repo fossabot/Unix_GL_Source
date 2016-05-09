@@ -67,7 +67,7 @@ namespace OpenGLEngine {
   	return shader;
   }
 
-  GeometryShader::GeometryShader(unsigned int id, std::string name) : Shader(id, name) {
+  GeometryShader::GeometryShader() {
 
   }
 

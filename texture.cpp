@@ -33,7 +33,7 @@ namespace OpenGLEngine {
 
   }
 
-  Texture::Texture(unsigned int id, std::string name) : Component(id, name) {}
+  Texture::Texture() {}
 
   Texture::~Texture() {
 

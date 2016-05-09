@@ -4,7 +4,6 @@
 #include "ustd.hpp"
 #include "transform.hpp"
 #include "camera.hpp"
-#include "component.hpp"
 #include "shader.hpp"
 
 
@@ -15,7 +14,7 @@ namespace OpenGLEngine {
 
     public:
 
-      DefaultShader(unsigned int id, std::string name);
+      DefaultShader();
       virtual ~DefaultShader();
       virtual void initialize();
       void update(Transform worldTransform, Camera mainCamera, float deltaTime);

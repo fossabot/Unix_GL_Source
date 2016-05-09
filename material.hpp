@@ -2,7 +2,6 @@
 #define __MATERIAL__
 
 #include "ustd.hpp"
-#include "component.hpp"
 #include "texture.hpp"
 #include "shader.hpp"
 #include "shader_default.hpp"
@@ -11,11 +10,11 @@
 
 namespace OpenGLEngine {
 
-  class Material : public Component {
+  class Material {
 
     public:
 
-      Material(unsigned int id, std::string name);
+      Material();
       virtual ~Material();
 
       void bind(Transform worldTransform, Camera mainCamera, float deltaTime);

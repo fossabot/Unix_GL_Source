@@ -53,7 +53,6 @@ namespace OpenGLEngine {
   Display::~Display() {
 
     delete EngineTime::getInstance();
-    delete Manager::getInstance();
     SDL_GL_DeleteContext(context);
 	  SDL_DestroyWindow(window);
     delete scene;
@@ -114,7 +113,6 @@ namespace OpenGLEngine {
     glEnable(GL_DEPTH_TEST);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    std::cout << "\n\nEngine Starting.\n";
     framebuffer->initialize(Display::width, Display::height);
     usingFramebuffer = true;
     scene->initialize(Display::width, Display::height);

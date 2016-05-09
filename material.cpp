@@ -4,7 +4,7 @@
 
 namespace OpenGLEngine {
 
-  Material::Material(unsigned int id, std::string name) : Component(id, name) {
+  Material::Material() {
 
   }
 

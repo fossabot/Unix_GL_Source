@@ -4,17 +4,16 @@
 #include "ustd.hpp"
 #include "transform.hpp"
 #include "camera.hpp"
-#include "component.hpp"
 
 
 
 namespace OpenGLEngine {
 
-  class Shader : public Component {
+  class Shader {
 
     public:
 
-      Shader(unsigned int id, std::string name);
+      Shader();
       virtual ~Shader();
       void clean();
       void reset(const std::string& filename);

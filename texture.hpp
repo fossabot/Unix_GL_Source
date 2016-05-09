@@ -2,16 +2,15 @@
 #define __TEXTURE__
 
 #include "ustd.hpp"
-#include "component.hpp"
 
 
 namespace OpenGLEngine {
 
-  class Texture : public Component {
+  class Texture {
 
     public:
 
-      Texture(unsigned int id, std::string name);
+      Texture();
       ~Texture();
       static GLuint staticLoadTexture(const char *filename);
       bool loadTexture(const char *filename);

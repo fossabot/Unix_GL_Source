@@ -11,7 +11,7 @@ namespace OpenGLEngine {
   class GeometryShader : public Shader {
 
     public:
-      GeometryShader(unsigned int id, std::string name);
+      GeometryShader();
       virtual ~GeometryShader();
       void clean();
       void reset(const std::string& filename);

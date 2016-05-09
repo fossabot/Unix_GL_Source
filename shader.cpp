@@ -69,7 +69,7 @@ namespace OpenGLEngine {
   }
 
   // CONSTRUCTOR & DESTRUCTOR ----------------------------------------------
-  Shader::Shader(unsigned int id, std::string name) : Component(id, name) {}
+  Shader::Shader() {}
 
   Shader::~Shader() {
 
@@ -110,7 +110,7 @@ namespace OpenGLEngine {
     glBindAttribLocation(program, 2, "VertexTexcoord");
     glBindAttribLocation(program, 3, "BoneIds");
     glBindAttribLocation(program, 4, "BoneWeights");
-    
+
   }
 
   void Shader::linkNValidate() {
@@ -160,16 +160,16 @@ namespace OpenGLEngine {
 
   void Shader::update(Transform worldTransform, Camera mainCamera, float deltaTime) {
 
-  	glm::mat4 model = worldTransform.Model();
+    glm::mat4 model = worldTransform.Model();
   	glm::mat4 view = mainCamera.GetViewMatrix();
   	glm::mat4 projection = mainCamera.GetProjectionMatrix();
   	glUniformMatrix4fv(uniforms[MODEL_U], 1, 0, &model[0][0]);
-  	glUniformMatrix4fv(uniforms[VIEW_U], 1, 0, &view[0][0]);
-  	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, 0, &projection[0][0]);
-  	glUniform3fv(uniforms[CAMERA_POSITION], 1, &mainCamera.GetPosition()[0]);
-	glUniform3fv(uniforms[CAMERA_DIRECTION], 1, &mainCamera.GetDirection()[0]);
-	glUniform1f(uniforms[TIME], SDL_GetTicks());
-  	glUniform1f(uniforms[DELTATIME], deltaTime);
+    glUniformMatrix4fv(uniforms[VIEW_U], 1, 0, &view[0][0]);
+    glUniformMatrix4fv(uniforms[PROJECTION_U], 1, 0, &projection[0][0]);
+    glUniform3fv(uniforms[CAMERA_POSITION], 1, &mainCamera.GetPosition()[0]);
+    glUniform3fv(uniforms[CAMERA_DIRECTION], 1, &mainCamera.GetDirection()[0]);
+    glUniform1f(uniforms[TIME], SDL_GetTicks());
+	  glUniform1f(uniforms[DELTATIME], deltaTime);
 
   }
   // -----------------------------------------------------------------------

@@ -2,7 +2,6 @@
 #define __FRAMEBUFFER__
 
 #include "ustd.hpp"
-#include "manager.hpp"
 #include "mesh.hpp"
 #include "texture.hpp"
 #include "shader_framebuffer.hpp"

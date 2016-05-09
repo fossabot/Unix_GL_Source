@@ -69,7 +69,7 @@ namespace OpenGLEngine {
   }
 
   // CONSTRUCTOR & DESTRUCTOR ----------------------------------------------
-  DefaultShader::DefaultShader(unsigned int id, std::string name) : Shader(id, name) {}
+  DefaultShader::DefaultShader() {}
 
   DefaultShader::~DefaultShader() {
 

@@ -13,4 +13,4 @@ M:
 
 
 clean:
-	rm -rf *o program_arch program_debian program_mac
+	@rm -rf *o program_arch program_debian program_mac ./Arch/*o ./Debian/*o ./Mac/*o

@@ -40,20 +40,19 @@ namespace OpenGLEngine {
     std::vector<glm::vec3>* normals = new std::vector<glm::vec3>();
     std::vector<glm::vec2>* coords = new std::vector<glm::vec2>();
     std::vector<unsigned int>* indices = new std::vector<unsigned int>();
-    Timeline* timeline = Timeline::getInstance();
 
     const std::string mesh_name =  std::string(mesh->mName.C_Str());
-    Mesh* e_mesh = new Mesh(Manager::addMesh(), mesh_name, global_inverse_transform);
-    Material* e_material = new Material(Manager::addMaterial(), mesh_name + ":material");
+    Mesh* e_mesh = new Mesh(global_inverse_transform);
+    Material* e_material = new Material();
     Shader* e_shader;
     if(shaderType == Shader::VERTEX_FRAGMENT_SHADERS)
-      e_shader = new DefaultShader(Manager::addShader(), mesh_name + ":shader");
+      e_shader = new DefaultShader();
     else if(shaderType == Shader::VERTEX_GEOMETRY_FRAGMENT_SHADERS)
-      e_shader = new GeometryShader(Manager::addShader(), mesh_name + ":shader");
+      e_shader = new GeometryShader();
 
-    Texture* e_diffuse = new Texture(Manager::addTexture(), mesh_name + ":diffuse_texture");
-    Texture* e_specular = new Texture(Manager::addTexture(), mesh_name + ":specular_texture");
-    Texture* e_normal = new Texture(Manager::addTexture(), mesh_name + ":normal_texture");
+    Texture* e_diffuse = new Texture();
+    Texture* e_specular = new Texture();
+    Texture* e_normal = new Texture();
 
 
     for(unsigned int v = 0; v < mesh->mNumVertices; v++) {
@@ -62,27 +61,11 @@ namespace OpenGLEngine {
       normals->push_back(glm::vec3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z));
 
       if(mesh->mTextureCoords[0]) {
-	coords->push_back(glm::vec2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y));
+	       coords->push_back(glm::vec2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y));
       } else {
-	coords->push_back(glm::vec2(1.0, 1.0));
+	       coords->push_back(glm::vec2(1.0, 1.0));
       }
 
-    }
-
-
-    if(timeline->animations.size() > 0) {
-      for(unsigned int b = 0; b < mesh->mNumBones; b++) {
-	Bone bone;
-	bone.name = mesh->mBones[b]->mName.C_Str();
-	bone.offsetMatrix = assimp_to_glm_mat4(mesh->mBones[b]->mOffsetMatrix);
-	for(unsigned int c = 0; c < mesh->mBones[b]->mNumWeights; c++){
-	  BoneConfig bc;
-	  bc.vertex_id = mesh->mBones[b]->mWeights[c].mVertexId;
-	  bc.weight = mesh->mBones[b]->mWeights[c].mWeight;
-	  bone.configs.push_back(bc);
-	}
-	timeline->bones->push_back(bone);
-      }
     }
 
     for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
@@ -105,8 +88,7 @@ namespace OpenGLEngine {
           aiString str;
           mat->GetTexture(aiTextureType_DIFFUSE, i, &str);
 
-          if(e_diffuse->loadTexture(std::string(path).append("/").append(str.C_Str()).c_str()))
-            e_diffuse->setName(mesh_name + ":diffuse:" + std::string(str.C_Str()));
+          if(e_diffuse->loadTexture(std::string(path).append("/").append(str.C_Str()).c_str()));
           else
             std::cerr << "DIFFUSE TEXTURE NOT FOUND\n";
 
@@ -116,8 +98,7 @@ namespace OpenGLEngine {
 
           aiString str;
           mat->GetTexture(aiTextureType_HEIGHT, i, &str);
-          if(e_normal->loadTexture(std::string(path).append("/").append(str.C_Str()).c_str()))
-            e_normal->setName(mesh_name + ":normal:" + std::string(str.C_Str()));
+          if(e_normal->loadTexture(std::string(path).append("/").append(str.C_Str()).c_str()));
           else
             std::cerr << "NORMAL TEXTURE FAILED\n";
 
@@ -127,8 +108,7 @@ namespace OpenGLEngine {
 
           aiString str;
           mat->GetTexture(aiTextureType_SPECULAR, i, &str);
-          if(e_specular->loadTexture(std::string(path).append("/").append(str.C_Str()).c_str()))
-            e_specular->setName(mesh_name + ":specular:" + std::string(str.C_Str()));
+          if(e_specular->loadTexture(std::string(path).append("/").append(str.C_Str()).c_str()));
           else
             std::cerr << "SPECULAR TEXTURE FAILED\n";
 
@@ -138,11 +118,7 @@ namespace OpenGLEngine {
 
     }
 
-    for(auto b : *timeline->bones){
-      std::cout << "Bone: " << b.name << std::endl;
-    }
-
-    e_mesh->loadGeometryToGpu(*vertices, *normals, *coords, *indices, timeline->getUniqueBones());
+    e_mesh->loadGeometryToGpu(*vertices, *normals, *coords, *indices);
 
     if(shaderType == Shader::VERTEX_FRAGMENT_SHADERS)
       e_shader->loadShaderToGpu("assets/shaders/diffuse/diffuse");
@@ -170,45 +146,6 @@ namespace OpenGLEngine {
     mr->setMesh(e_mesh);
     mr->setMaterial(e_material);
     return mr;
-
-  }
-
-  void Importer::processAnimation(const aiScene *scene) {
-
-    Timeline* timeline = Timeline::getInstance();
-
-    for(unsigned int i = 0; i < scene->mNumAnimations; i++) {
-
-      Animation anim;
-      anim.duration = scene->mAnimations[i]->mDuration;
-      anim.ticksPerSecond = scene->mAnimations[i]->mTicksPerSecond;
-      for(unsigned int c = 0; c < scene->mAnimations[i]->mNumChannels; c++) {
-	AnimationChannel channel;
-	channel.name = scene->mAnimations[i]->mChannels[c]->mNodeName.C_Str();
-	for(unsigned int p = 0; p < scene->mAnimations[i]->mChannels[c]->mNumPositionKeys; p++) {
-	  auto value = scene->mAnimations[i]->mChannels[c]->mPositionKeys[p].mValue;
-	  channel.positions.push_back(glm::vec3(value.x, value.y, value.z));
-	}
-	for(unsigned int p = 0; p < scene->mAnimations[i]->mChannels[c]->mNumScalingKeys; p++) {
-	  auto value = scene->mAnimations[i]->mChannels[c]->mScalingKeys[p].mValue;
-	  channel.scales.push_back(glm::vec3(value.x, value.y, value.z));
-	}
-	for(unsigned int p = 0; p < scene->mAnimations[i]->mChannels[c]->mNumRotationKeys; p++) {
-	  auto value = scene->mAnimations[i]->mChannels[c]->mRotationKeys[p].mValue;
-	  channel.rotations.push_back(glm::quat(glm::vec3(value.x, value.y, value.z)));
-	}
-	anim.channels.push_back(channel);
-      }
-      timeline->animations.push_back(anim);
-    }
-
-    timeline->play();
-
-  }
-
-  void Importer::setupSkeletonHirearchy(const aiScene* scene, Timeline* timeline, unsigned int level, aiNode* nodeLevel, std::vector<aiNode*> used) {
-
-
 
   }
 
@@ -243,11 +180,6 @@ namespace OpenGLEngine {
       m_format = Mesh::ModelFormat::FORMAT_DAE;
     }
 
-
-
-    processAnimation(scene);
-
-
     #ifdef __APPLE__
 
     std::regex pattern;
@@ -274,21 +206,8 @@ namespace OpenGLEngine {
       len_path--;
     }
     std::string final = path.substr(0, len_path+1);
-
-
     processNode(scene->mRootNode, scene, out, final, shaderType, m_format);
     #endif
-
-
-
-    std::vector<aiNode*> used;
-    setupSkeletonHirearchy(scene, Timeline::getInstance(), 1, scene->mRootNode, used);
-
-
-    Timeline* timeline = Timeline::getInstance();
-    std::cout << "\n\n\n";
-    for(Bone ubone : timeline->getUniqueBones())
-      std::cout << ubone.name << std::endl;
 
     return out;
 

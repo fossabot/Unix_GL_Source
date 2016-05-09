@@ -69,7 +69,7 @@ namespace OpenGLEngine {
   }
 
   // CONSTRUCTOR & DESTRUCTOR ----------------------------------------------
-  FramebufferShader::FramebufferShader(unsigned int id, std::string name) : Shader(id, name) {}
+  FramebufferShader::FramebufferShader() {}
 
   FramebufferShader::~FramebufferShader() {
 

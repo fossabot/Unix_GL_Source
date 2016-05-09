@@ -4,7 +4,6 @@
 #include "ustd.hpp"
 #include "transform.hpp"
 #include "camera.hpp"
-#include "component.hpp"
 #include "shader.hpp"
 
 
@@ -14,7 +13,7 @@ namespace OpenGLEngine {
 
     public:
 
-      FramebufferShader(unsigned int id, std::string name);
+      FramebufferShader();
       virtual ~FramebufferShader();
       void clean();
       void reset(const std::string& filename);

@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
   OpenGLEngine::Display* display = OpenGLEngine::Display::getInstance();
   display->initialize();
 
-  std::cout << "\n\n\tCONTROLLING KEYS:\n" << "\tWSDA -> MOVING THE CAMERA\n" << "\tMOUSE MOTION -> ROTATING THE CAMERA AROUND ITS AXIS\n" << "\tSPACE BAR -> CHANGING POST-PROCESSING SHADER\n\n";
+  std::cout << "\nCONTROLLING KEYS:\n" << "WSDA -> MOVING THE CAMERA\n" << "MOUSE MOTION -> ROTATING THE CAMERA AROUND ITS AXIS\n" << "SPACE BAR -> CHANGING POST-PROCESSING SHADER\n";
 
   while(display->isRunning()) {
 
@@ -15,7 +15,6 @@ int main(int argc, char* argv[]) {
 
   }
 
-  delete OpenGLEngine::Timeline::getInstance();
   delete OpenGLEngine::Display::getInstance();
   return 0;
 
