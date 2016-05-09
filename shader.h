@@ -1,9 +1,9 @@
 #ifndef __SHADER__
 #define __SHADER__
 
-#include "ustd.hpp"
-#include "transform.hpp"
-#include "camera.hpp"
+#include "ustd.h"
+#include "transform.h"
+#include "camera.h"
 
 
 

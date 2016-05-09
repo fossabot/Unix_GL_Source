@@ -1,11 +1,11 @@
 #ifndef __MATERIAL__
 #define __MATERIAL__
 
-#include "ustd.hpp"
-#include "texture.hpp"
-#include "shader.hpp"
-#include "shader_default.hpp"
-#include "shader_geometry.hpp"
+#include "ustd.h"
+#include "texture.h"
+#include "shader.h"
+#include "shader_default.h"
+#include "shader_geometry.h"
 
 
 namespace OpenGLEngine {

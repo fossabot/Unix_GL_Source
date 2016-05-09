@@ -1,4 +1,4 @@
-#include "mesh.hpp"
+#include "mesh.h"
 
 
 namespace OpenGLEngine {

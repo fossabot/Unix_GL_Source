@@ -1,29 +1,29 @@
-#ifndef __SHADER_DEFAULT__
-#define __SHADER_DEFAULT__
+#ifndef __SHADER_GEOMETRY__
+#define __SHADER_GEOMETRY__
 
-#include "ustd.hpp"
-#include "transform.hpp"
-#include "camera.hpp"
-#include "shader.hpp"
+#include "ustd.h"
+#include "shader.h"
 
 
 
 namespace OpenGLEngine {
-  class DefaultShader : public Shader {
+  class GeometryShader : public Shader {
     public:
-      DefaultShader();
-      virtual ~DefaultShader();
-      virtual void initialize();
-      void update(Transform worldTransform, Camera mainCamera, float deltaTime);
-      void loadShaderToGpu(const std::string& filename);
-      void bind();
-      void unbind();
-      GLuint Program();
+      GeometryShader();
+      virtual ~GeometryShader();
+      void clean();
+      void reset(const std::string& filename);
+      virtual void update(Transform worldTransform, Camera mainCamera, float deltaTime);
+      virtual void loadShaderToGpu(const std::string& filename);
+      virtual void bind();
+      virtual void unbind();
+      virtual GLuint Program();
 
     private:
       enum {
         VERTEX_SHADER,
         FRAGMENT_SHADER,
+        GEOMETRY_SHADER,
         NUM_SHADERS
       };
       enum {
@@ -44,7 +44,6 @@ namespace OpenGLEngine {
       GLuint createShader(const std::string& text, unsigned int type);
       std::string loadShaderCode(const std::string& filename);
       void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
-
       void setupAttributes();
       void linkNValidate();
       void setupUniforms();

@@ -1,10 +1,10 @@
 #ifndef __DISPLAY__
 #define __DISPLAY__
 
-#include "ustd.hpp"
-#include "scene.hpp"
-#include "framebuffer.hpp"
-#include "time.hpp"
+#include "ustd.h"
+#include "scene.h"
+#include "framebuffer.h"
+#include "time.h"
 
 
 #define MAX_CAPTURED_FRAMES 600

@@ -1,7 +1,7 @@
 #ifndef __TEXTURE__
 #define __TEXTURE__
 
-#include "ustd.hpp"
+#include "ustd.h"
 
 
 namespace OpenGLEngine {

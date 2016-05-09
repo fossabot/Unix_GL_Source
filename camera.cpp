@@ -1,5 +1,5 @@
 
-#include "camera.hpp"
+#include "camera.h"
 
 
 namespace OpenGLEngine {

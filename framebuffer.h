@@ -1,10 +1,10 @@
 #ifndef __FRAMEBUFFER__
 #define __FRAMEBUFFER__
 
-#include "ustd.hpp"
-#include "mesh.hpp"
-#include "texture.hpp"
-#include "shader_framebuffer.hpp"
+#include "ustd.h"
+#include "mesh.h"
+#include "texture.h"
+#include "shader_framebuffer.h"
 
 namespace OpenGLEngine {
   class Framebuffer {

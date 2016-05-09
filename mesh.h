@@ -1,8 +1,8 @@
 #ifndef __MESH__
 #define __MESH__
 
-#include "ustd.hpp"
-#include "transform.hpp"
+#include "ustd.h"
+#include "transform.h"
 
 
 namespace OpenGLEngine {

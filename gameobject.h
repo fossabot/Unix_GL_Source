@@ -1,8 +1,8 @@
 #ifndef __GAMEOBJECT__
 #define __GAMEOBJECT__
 
-#include "ustd.hpp"
-#include "mesh_renderer.hpp"
+#include "ustd.h"
+#include "mesh_renderer.h"
 
 
 

@@ -1,9 +1,9 @@
 #ifndef __MESH_RENDERER__
 #define __MESH_RENDERER__
 
-#include "ustd.hpp"
-#include "mesh.hpp"
-#include "material.hpp"
+#include "ustd.h"
+#include "mesh.h"
+#include "material.h"
 
 
 namespace OpenGLEngine {

@@ -1,8 +1,10 @@
 #ifndef __SCENE__
 #define __SCENE__
 
-#include "ustd.hpp"
-#include "importer.hpp"
+#include "ustd.h"
+#include "importer.h"
+#include "skybox.h"
+
 
 
 namespace OpenGLEngine {
@@ -21,6 +23,7 @@ namespace OpenGLEngine {
       Importer *m_importer;
       std::vector<Gameobject*>* m_gobjects;
       Camera* m_mainCamera;
+      Skybox* skybox;
   };
 }
 

@@ -1,4 +1,4 @@
-#include "framebuffer.hpp"
+#include "framebuffer.h"
 
 
 namespace OpenGLEngine {

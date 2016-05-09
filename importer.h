@@ -1,8 +1,8 @@
 #ifndef __IMPORTER__
 #define __IMPORTER__
 
-#include "ustd.hpp"
-#include "gameobject.hpp"
+#include "ustd.h"
+#include "gameobject.h"
 
 namespace OpenGLEngine {
   class Importer {

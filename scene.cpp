@@ -1,4 +1,4 @@
-#include "scene.hpp"
+#include "scene.h"
 
 namespace OpenGLEngine {
 
@@ -14,6 +14,7 @@ namespace OpenGLEngine {
 
     delete m_importer;
     delete m_mainCamera;
+    delete skybox;
   }
   // ---------------------------------------------------------------------------------
 
@@ -29,6 +30,8 @@ namespace OpenGLEngine {
     m_mainCamera = new Camera(glm::vec3(0.0, 1.1, 3.0), width, height);
     m_importer = new Importer();
     m_gobjects->push_back(m_importer->importModel("assets/models/nervous/nervous.dae", Shader::VERTEX_FRAGMENT_SHADERS));
+    skybox = new Skybox();
+    skybox->load();
   }
 
   void Scene::render2D(float deltaTime) {
@@ -36,6 +39,7 @@ namespace OpenGLEngine {
   }
 
   void Scene::render3D(float deltaTime) {
+    skybox->bind(*m_mainCamera, deltaTime);
     m_mainCamera->updateLocation(deltaTime);
     for(Gameobject *go : *m_gobjects)
       go->update(*m_mainCamera, deltaTime);

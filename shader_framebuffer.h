@@ -1,10 +1,10 @@
 #ifndef __SHADER_FRAMEBUFFER__
 #define __SHADER_FRAMEBUFFER__
 
-#include "ustd.hpp"
-#include "transform.hpp"
-#include "camera.hpp"
-#include "shader.hpp"
+#include "ustd.h"
+#include "transform.h"
+#include "camera.h"
+#include "shader.h"
 
 
 namespace OpenGLEngine {
