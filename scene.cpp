@@ -27,7 +27,7 @@ namespace OpenGLEngine {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     m_gobjects = new std::vector<Gameobject*>();
-    m_mainCamera = new Camera(glm::vec3(0.0, 0.0, 2.0), width, height);
+    m_mainCamera = new Camera(glm::vec3(0.0, 0.0, 1.0), width, height);
     m_importer = new Importer();
     m_gobjects->push_back(m_importer->importModel("assets/models/monkey/monkey.obj", Shader::VERTEX_FRAGMENT_SHADERS));
     skybox = new Skybox();
