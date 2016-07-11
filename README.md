@@ -1,5 +1,5 @@
 # Unix_GL_Source
-## A Modern OpenGL Graphics Engine
+## A Modern OpenGL Graphics Engine From Scratch
 
 ![alt tag](https://github.com/omarshariffathi/Unix_GL_Source/blob/master/screenshots/godrays.png)
 ![alt tag](https://raw.githubusercontent.com/omarshariffathi/Unix_GL_Source/master/screenshots/reflections.png)
