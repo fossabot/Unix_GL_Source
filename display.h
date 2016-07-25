@@ -65,7 +65,7 @@ namespace OpenGLEngine {
       // VARS --------------------------------------------------------------------
       Scene* m_scene;
       Framebuffer* m_framebuffer;
-      unsigned int m_numEffects;
+      int m_numEffects;
       std::string m_windowTitle, m_windowFps, m_windowEffect;
       int m_currentCapturedFrame;
       // -------------------------------------------------------------------------

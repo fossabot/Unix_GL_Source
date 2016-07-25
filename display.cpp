@@ -153,6 +153,7 @@ namespace OpenGLEngine {
 
       if(e.type == SDL_KEYDOWN ) {
           if(e.key.keysym.sym == SDLK_SPACE) {
+            printf("%d\n", m_numEffects);
             switch (m_numEffects) {
               case 0:
                 m_framebuffer->reset("assets/shaders/framebuffer/framebuffer", m_width, m_height);
