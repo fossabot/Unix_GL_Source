@@ -38,7 +38,7 @@ namespace OpenGLEngine {
     private:
       // CONSTRUCTORS ------------------------------------------------------------
       Display(){
-        m_width = 1600, m_height = 920, m_mouseRelX = 0, m_mouseRelY = 0;
+        m_width = 800, m_height = 640, m_mouseRelX = 0, m_mouseRelY = 0;
         m_running = false;
         m_scene = new Scene();
         m_framebuffer = new Framebuffer();

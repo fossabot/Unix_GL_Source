@@ -1,4 +1,4 @@
-COMPILER=clang++ -std=c++11
+COMPILER=g++ -std=c++11
 CDIR= $(shell pwd)
 
 
@@ -10,10 +10,7 @@ LIB= /usr/local/lib
 
 SDL2_FRAMEWORK= /Library/Frameworks
 ASSIMP= brew install assimp
-ASSIMP_INC= /usr/local/Cellar/assimp/3.1.1/include
-ASSIMP_LIB= /usr/local/Cellar/assimp/3.1.1/lib
 GLM= brew install glm
-GLM_INC= /usr/local/Cellar/glm/0.9.7.1/include
 
 
 
@@ -44,7 +41,7 @@ Mac: display.o camera.o framebuffer.o gameobject.o importer.o main.o material.o 
 								skybox.o \
 								shader_skybox.o \
 								time.o \
-								-I $(INCLUDE) -I $(ASSIMP_INC) -I $(GLM_INC) -L $(LIB) -framework OpenGL -L $(SDL2_FRAMEWORK) -framework SDL2 -L $(ASSIMP_LIB) -lassimp
+								-I $(INCLUDE) -L $(LIB) -framework OpenGL -L $(SDL2_FRAMEWORK) -framework SDL2 -lassimp
 
 
 

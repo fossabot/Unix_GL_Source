@@ -191,7 +191,7 @@ namespace OpenGLEngine {
     if(m_format == Mesh::ModelFormat::FORMAT_OBJ)
       pattern = std::regex("(.*)\\/(.*)\\.obj");
     else if(m_format == Mesh::ModelFormat::FORMAT_DAE)
-      patter = std::regex("(.*)\\/(.*)\\.dae");
+      pattern = std::regex("(.*)\\/(.*)\\.dae");
 
     std::smatch pieces_match;
     if(std::regex_match(path, pieces_match, pattern)) {
