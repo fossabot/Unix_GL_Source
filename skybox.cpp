@@ -105,7 +105,7 @@ namespace OpenGLEngine {
     m_skyboxShader->update(*m_transform, camera, deltaTime);
     glBindVertexArray(m_quadVAO);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubemap_texture_id);
-    //glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
     glDepthMask(GL_TRUE);
   }
