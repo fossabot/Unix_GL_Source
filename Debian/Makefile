@@ -1,4 +1,4 @@
-COMPILER=g++ -std=c++14
+COMPILER=g++ -std=c++11
 CDIR= $(shell pwd)
 
 
