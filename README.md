@@ -3,6 +3,7 @@
 
 ![alt tag](https://github.com/omarshariffathi/Unix_GL_Source/blob/master/screenshots/godrays.png)
 ![alt tag](https://raw.githubusercontent.com/omarshariffathi/Unix_GL_Source/master/screenshots/reflections.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fo-micron%2FUnix_GL_Source.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fo-micron%2FUnix_GL_Source?ref=badge_shield)
 
 
 # Mac Setup<br>
@@ -32,3 +33,7 @@ To Build this project:<br>
 3-  open terminal then cd to Unix_GL_Source/<br>
 4-  write make D<br>
 5-  run with writing ./program_debian to terminal<br><br>
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fo-micron%2FUnix_GL_Source.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fo-micron%2FUnix_GL_Source?ref=badge_large)
